@@ -3,7 +3,7 @@
 // 23/03/2023
 //
 // Extra for Experts:
-// Created a walking and idle animation for the guard using a character sheet and a JSON file
+// 
 
 // How to animate my sprite sheet animations
 // https://www.youtube.com/watch?v=3noMeuufLZY
