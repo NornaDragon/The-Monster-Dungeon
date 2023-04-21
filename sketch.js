@@ -10,6 +10,15 @@
 
 // I based some of my levelloader code off of ethan sparrow 2D array project
 
+class Enemy {
+  constructor() {
+    this.x = random(width);
+    this.y = 120;
+    this.speed = 10;
+    this.viewed = false;
+  }
+}
+
 // Starting point for the movement of the player character
 let moveX = 0;
 let moveY = 123;
