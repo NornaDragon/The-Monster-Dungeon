@@ -1,48 +1,54 @@
 # The Monster Dungeon major project proposal
 
 ## Description
-### 
+A dungeon crawler with enemies and helpful allies. 
 
 ## Needs to Have
 
- - movement animation (Complete)
+- Movement animation (Complete)
 
-- room change through doors (Complete)
+- Room change through doors (Complete)
 
-- enemy AI
+- Companion AI
 
-    - random movement when no player is in the line of sight
+    - Helps the player
+
+    - Gives helpful status effects
+
+- Enemy AI
+
+    - Random movement when no player is in the line of sight
     
-    - when a player is spotted go toward them
+    - When a player is spotted go toward them
 
-- battle system
+- Battle system
 
-    - different types of damage
+    - Different types of damage
 
-        - status effects
+        - Status effects
 
-        - different types of enemies
+        - Different types of enemies
 
-        - magic using mp
+        - Magic using mp
 
     - Health and Magic Bar (player and enemy)
 
-    - visual display
+    - Visual display
 
-- compatible with touch devices
+- Compatible with touch devices
 
 
 ## Nice to Have
-- player customization
+- Player customization
 
-- multiplayer
+- Multiplayer
 
-- save and load progress
+- Save and Load progress
 
-- exp and money system
+- Exp and Money system
 
-    - level up system (exp)
+    - Level up system (exp)
 
-    - weapon upgrade system (money)
+    - Weapon upgrade system (money)
 
-- item drop from enemies and treasure chests
+- Item drop from enemies and treasure chests
