@@ -1,6 +1,7 @@
 # The Monster Dungeon major project proposal
 
 ## Description
+
 A dungeon crawler with enemies and helpful allies. 
 
 ## Needs to Have
@@ -39,6 +40,7 @@ A dungeon crawler with enemies and helpful allies.
 
 
 ## Nice to Have
+
 - Player customization
 
 - Multiplayer
