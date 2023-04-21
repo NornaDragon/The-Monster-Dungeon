@@ -11,9 +11,9 @@
 
 - enemy AI
 
-    - random movement when no player in line of sight
+    - random movement when no player is in the line of sight
     
-    - when player is spoted goes towards them
+    - when a player is spotted go toward them
 
 - battle system
 
@@ -29,9 +29,15 @@
 
     - visual display
 
+- compatible with touch devices
+
 
 ## Nice to Have
 - player customization
+
+- multiplayer
+
+- save and load progress
 
 - exp and money system
 
@@ -39,4 +45,4 @@
 
     - weapon upgrade system (money)
 
-- item drop from enemys and treasure chests
+- item drop from enemies and treasure chests
