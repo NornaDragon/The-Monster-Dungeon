@@ -17,7 +17,21 @@ class Enemy {
     this.speed = 10;
     this.viewed = false;
   }
+
+  easyEnemy() {
+    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+  }
+
+  midEnemy() {
+    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+  }
+
+  hardEnemy() {
+    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+  }
 }
+
+let badGuys = [];
 
 // Starting point for the movement of the player character
 let moveX = 0;
@@ -194,8 +208,8 @@ function setup() {
 function draw() {
   display();
   guardTravel();
-  gremEnemy();
   roomChange();
+  // allEnemy();
 }
 
 function levelLoader() {
@@ -262,7 +276,7 @@ function roomChange() {
         }
       }
       else {
-        if (wait === 100) {
+        if (wait === 1200) {
           isChanged = false;
           wait = 0;
         }
@@ -316,9 +330,21 @@ function guardTravel() {
 }
 
 // Used to show first and last level and used to make sure animation works on different images
-function gremEnemy() {
-  if (level === 0 || level === 8) {
-    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+function allEnemy() {
+  if (level === 0 || level === 1 || level === 2) {
+    let easy = new Enemy();
+    badGuys.push(easy);
+    badGuys.easyEnemy();
+  }
+  else if (level === 3 || level === 4 || level === 5) {
+    let easy = new Enemy();
+    badGuys.push(easy);
+    badGuys.midEnemy();
+  }
+  else if (level === 6 || level === 7 || level === 8) {
+    let easy = new Enemy();
+    badGuys.push(easy);
+    badGuys.hardEnemy();
   }
 }
 
@@ -392,4 +418,8 @@ function createEmpty2dArray(cols, rows) {
     }
   }
   return emptyGrid;
+}
+
+function loading() {
+
 }

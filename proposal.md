@@ -3,9 +3,9 @@
 ## Description
 
 A dungeon crawler with enemies and helpful allies. 
-
+# 
 ## Needs to Have
-
+# 
 - Movement animation (Complete)
 
 - Room change through doors (Complete)
@@ -38,9 +38,9 @@ A dungeon crawler with enemies and helpful allies.
 
 - Compatible with touch devices
 
-
+# 
 ## Nice to Have
-
+# 
 - Player customization
 
 - Multiplayer
