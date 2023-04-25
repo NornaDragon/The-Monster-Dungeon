@@ -10,27 +10,90 @@
 
 // I based some of my levelloader code off of ethan sparrow 2D array project
 
-class Enemy {
+class PlayerAndEnemy {
   constructor() {
     this.x = random(width);
-    this.y = 120;
-    this.speed = 10;
+    this.playerX = 0;
+    this.y = 123;
+    this.speed = 4.4;
     this.viewed = false;
+    this.life = 100;
+    this.guardstill = true;
+    this.isUp = true;
+    this.isRight = false;
   }
 
   easyEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
   }
 
   midEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
   }
 
   hardEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], 1140, moveY + 3);
+    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+  }
+
+  enemyMove() {
+    let choice = random(100);
+    if (choice < 50) {
+      this.x -= this.speed;
+    }
+    else if (choice < 100) {
+      this.x += this.speed;
+    }
+  }
+
+  player() {
+    if (this.guardstill) {
+      if (this.isRight) {
+        image(guardRightAnimation[frameCount % guardRightAnimation.length], this.playerX, this.y);
+      }
+      else {
+        image(guardAnimation[frameCount % guardAnimation.length], this.playerX, this.y);
+      }
+    }
+    else {
+      if (this.isRight) {
+        image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], this.playerX, this.y);
+      }
+      else {
+        image(guardWalkAnimation[frameCount % guardWalkAnimation.length], this.playerX, this.y);
+      }
+    }
+  }
+
+  playerMove() {
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.isRight = true;
+      if (this.playerX < width-54) {
+        this.playerX += this.speed;
+      }
+      this.guardstill = false;
+    }
+    else if (keyIsDown(LEFT_ARROW)) {
+      isRight = false;
+      if (this.playerX > -6) {
+        this.playerX -= this.speed;
+      }
+      this.guardstill = false;
+    }
+    else {
+      this.guardstill = true;
+    }
+  }
+
+  damage() {
+
+  }
+
+  isDead() {
+    return this.life <= 0;
   }
 }
 
+let player;
 let badGuys = [];
 
 // Starting point for the movement of the player character
@@ -203,11 +266,15 @@ function setup() {
       tiles[y][x] = tileType;
     }
   }
+
+  player = new PlayerAndEnemy();
 }
 
 function draw() {
   display();
-  guardTravel();
+  // guardTravel();
+  player.player();
+  player.playerMove();
   roomChange();
   // allEnemy();
 }
@@ -332,19 +399,43 @@ function guardTravel() {
 // Used to show first and last level and used to make sure animation works on different images
 function allEnemy() {
   if (level === 0 || level === 1 || level === 2) {
-    let easy = new Enemy();
+    let easy = new PlayerAndEnemy();
     badGuys.push(easy);
     badGuys.easyEnemy();
+    for (let i = badGuys.length - 1; i >= 0; i--) {
+      badGuys[i].easyEnemy();
+      badGuys[i].enemyMove();
+  
+      if (badGuys[i].isDead()) {
+        badGuys.splice(i, 1);
+      }
+    }
   }
   else if (level === 3 || level === 4 || level === 5) {
-    let easy = new Enemy();
+    let easy = new PlayerAndEnemy();
     badGuys.push(easy);
     badGuys.midEnemy();
+    for (let i = badGuys.length - 1; i >= 0; i--) {
+      badGuys[i].midEnemy();
+      badGuys[i].enemyMove();
+  
+      if (badGuys[i].isDead()) {
+        badGuys.splice(i, 1);
+      }
+    }
   }
   else if (level === 6 || level === 7 || level === 8) {
-    let easy = new Enemy();
+    let easy = new PlayerAndEnemy();
     badGuys.push(easy);
     badGuys.hardEnemy();
+    for (let i = badGuys.length - 1; i >= 0; i--) {
+      badGuys[i].hardEnemy();
+      badGuys[i].enemyMove();
+  
+      if (badGuys[i].isDead()) {
+        badGuys.splice(i, 1);
+      }
+    }
   }
 }
 
