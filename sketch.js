@@ -10,7 +10,114 @@
 
 // I based some of my levelloader code off of ethan sparrow 2D array project
 
-class PlayerAndEnemy {
+class Player {
+  constructor() {
+    this.x = random(width);
+    this.playerX = 0;
+    this.y = 123;
+    this.speed = 4.4;
+    this.viewed = false;
+    this.life = 100;
+    this.guardstill = true;
+    this.isUp = true;
+    this.isRight = false;
+  }
+
+  player() {
+    if (this.guardstill) {
+      if (this.isRight) {
+        image(guardRightAnimation[frameCount % guardRightAnimation.length], this.playerX, this.y);
+      }
+      else {
+        image(guardAnimation[frameCount % guardAnimation.length], this.playerX, this.y);
+      }
+    }
+    else {
+      if (this.isRight) {
+        image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], this.playerX, this.y);
+      }
+      else {
+        image(guardWalkAnimation[frameCount % guardWalkAnimation.length], this.playerX, this.y);
+      }
+    }
+
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.isRight = true;
+      if (this.playerX < width-54) {
+        this.playerX += this.speed;
+      }
+      this.guardstill = false;
+    }
+    else if (keyIsDown(LEFT_ARROW)) {
+      this.isRight = false;
+      if (this.playerX > -6) {
+        this.playerX -= this.speed;
+      }
+      this.guardstill = false;
+    }
+    else {
+      this.guardstill = true;
+    }
+
+    for (let y = 0; y < tilesHigh; y++) {
+      for (let x = 0; x < tilesWide; x++) {
+        if (isChanged === false) {
+          if (tiles[y][x] === "P" && tiles[y][x] === tiles[1][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
+            level++;
+            levelLoader();
+            isChanged = true;
+          }
+          else if (tiles[y][x] === "A" && tiles[y][x] === tiles[1][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
+            level++;
+            levelLoader();
+            isChanged = true;
+          }
+          else if (tiles[y][x] === "T" && tiles[y][x] === tiles[2][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
+            level++;
+            levelLoader();
+            isChanged = true;
+          }
+          else if (tiles[y][x] === "H" && tiles[y][x] === tiles[2][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
+            level++;
+            levelLoader();
+            isChanged = true;
+          }
+          else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((this.playerX+30)/60)] && keyIsDown(DOWN_ARROW)){
+            level--;
+            levelLoader();
+            isChanged = true;
+          }
+          else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((this.playerX+30)/60)] && keyIsDown(DOWN_ARROW)){
+            level--;
+            levelLoader();
+            isChanged = true;
+          }
+        }
+        else {
+          if (wait === 1200) {
+            isChanged = false;
+            wait = 0;
+          }
+          else {
+            wait++;
+          }
+        }
+      }
+    }
+  }
+
+  
+
+  damage() {
+
+  }
+
+  isDead() {
+    return this.life <= 0;
+  }
+}
+
+class Enemy {
   constructor() {
     this.x = random(width);
     this.playerX = 0;
@@ -43,53 +150,6 @@ class PlayerAndEnemy {
     else if (choice < 100) {
       this.x += this.speed;
     }
-  }
-
-  player() {
-    if (this.guardstill) {
-      if (this.isRight) {
-        image(guardRightAnimation[frameCount % guardRightAnimation.length], this.playerX, this.y);
-      }
-      else {
-        image(guardAnimation[frameCount % guardAnimation.length], this.playerX, this.y);
-      }
-    }
-    else {
-      if (this.isRight) {
-        image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], this.playerX, this.y);
-      }
-      else {
-        image(guardWalkAnimation[frameCount % guardWalkAnimation.length], this.playerX, this.y);
-      }
-    }
-  }
-
-  playerMove() {
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.isRight = true;
-      if (this.playerX < width-54) {
-        this.playerX += this.speed;
-      }
-      this.guardstill = false;
-    }
-    else if (keyIsDown(LEFT_ARROW)) {
-      isRight = false;
-      if (this.playerX > -6) {
-        this.playerX -= this.speed;
-      }
-      this.guardstill = false;
-    }
-    else {
-      this.guardstill = true;
-    }
-  }
-
-  damage() {
-
-  }
-
-  isDead() {
-    return this.life <= 0;
   }
 }
 
@@ -148,6 +208,7 @@ let levelSet = [];
 let isChanged = false;
 let wait = 0;
 
+// FOR IMAGE ASSETS
 function preload() {
   // Load level data
   levelSet.push(loadStrings("assets/levels/0.txt"));
@@ -267,15 +328,13 @@ function setup() {
     }
   }
 
-  player = new PlayerAndEnemy();
+  player = new Player();
 }
 
 function draw() {
   display();
-  // guardTravel();
   player.player();
-  player.playerMove();
-  roomChange();
+  // player.playerMove();
   // allEnemy();
 }
 
@@ -311,7 +370,7 @@ function roomChange() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
       if (isChanged === false) {
-        if (tiles[y][x] === "P" && tiles[y][x] === tiles[1][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
+        if (tiles[y][x] === "P" && tiles[y][x] === tiles[1][Math.floor((player.playerX+30)/60)] && keyIsDown(UP_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
@@ -399,7 +458,7 @@ function guardTravel() {
 // Used to show first and last level and used to make sure animation works on different images
 function allEnemy() {
   if (level === 0 || level === 1 || level === 2) {
-    let easy = new PlayerAndEnemy();
+    let easy = new Enemy();
     badGuys.push(easy);
     badGuys.easyEnemy();
     for (let i = badGuys.length - 1; i >= 0; i--) {
@@ -412,7 +471,7 @@ function allEnemy() {
     }
   }
   else if (level === 3 || level === 4 || level === 5) {
-    let easy = new PlayerAndEnemy();
+    let easy = new Enemy();
     badGuys.push(easy);
     badGuys.midEnemy();
     for (let i = badGuys.length - 1; i >= 0; i--) {
@@ -425,7 +484,7 @@ function allEnemy() {
     }
   }
   else if (level === 6 || level === 7 || level === 8) {
-    let easy = new PlayerAndEnemy();
+    let easy = new Enemy();
     badGuys.push(easy);
     badGuys.hardEnemy();
     for (let i = badGuys.length - 1; i >= 0; i--) {
@@ -509,8 +568,4 @@ function createEmpty2dArray(cols, rows) {
     }
   }
   return emptyGrid;
-}
-
-function loading() {
-
 }
