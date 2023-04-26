@@ -10,6 +10,8 @@ A dungeon crawler with enemies and helpful allies.
 
 - Room change through doors (Complete)
 
+- Music and sound effects
+
 - Companion AI
 
     - Helps the player
@@ -27,16 +29,17 @@ A dungeon crawler with enemies and helpful allies.
     - Different types of damage
 
         - Status effects
+            - healing (HP/MP)
+            - poison
+            - burn
 
-        - Different types of enemies
+        - Magic using Magic Points (MP)
 
-        - Magic using mp
-
-    - Health and Magic Bar (player and enemy)
+    - (HP)Health and (MP)Magic Bar (player and enemy)
 
     - Visual display
 
-- Compatible with touch devices
+
 
 # 
 ## Nice to Have
@@ -49,8 +52,10 @@ A dungeon crawler with enemies and helpful allies.
 
 - Exp and Money system
 
-    - Level up system (exp)
+    - Level-up system (exp)
 
     - Weapon upgrade system (money)
 
 - Item drop from enemies and treasure chests
+
+- Compatible with touch devices
