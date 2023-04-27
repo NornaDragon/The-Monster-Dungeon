@@ -1,6 +1,6 @@
 // The Monster Dungeon Final
 // Maria C. van der Spuy
-// 23/03/2023
+// 27/04/2023
 //
 // Extra for Experts:
 // 
@@ -8,50 +8,64 @@
 // How to animate my sprite sheet animations
 // https://www.youtube.com/watch?v=3noMeuufLZY
 
-// I based some of my levelloader code off of ethan sparrow 2D array project
-
 class Player {
   constructor() {
-    this.x = random(width);
-    this.playerX = 0;
-    this.y = 123;
+    this.x = 600;
+    this.y = 300;
     this.speed = 4.4;
     this.viewed = false;
     this.life = 100;
     this.guardstill = true;
     this.isUp = true;
     this.isRight = false;
+    this.level = 0;
+    this.levelSet = [];
+    this.isChanged = false;
+    this.wait = 0;
+    this.lines;
   }
 
   player() {
     if (this.guardstill) {
       if (this.isRight) {
-        image(guardRightAnimation[frameCount % guardRightAnimation.length], this.playerX, this.y);
+        image(guardRightAnimation[frameCount % guardRightAnimation.length], this.x, this.y);
       }
       else {
-        image(guardAnimation[frameCount % guardAnimation.length], this.playerX, this.y);
+        image(guardAnimation[frameCount % guardAnimation.length], this.x, this.y);
       }
     }
     else {
       if (this.isRight) {
-        image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], this.playerX, this.y);
+        image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], this.x, this.y);
       }
       else {
-        image(guardWalkAnimation[frameCount % guardWalkAnimation.length], this.playerX, this.y);
+        image(guardWalkAnimation[frameCount % guardWalkAnimation.length], this.x, this.y);
       }
     }
 
     if (keyIsDown(RIGHT_ARROW)) {
       this.isRight = true;
-      if (this.playerX < width-54) {
-        this.playerX += this.speed;
+      if (this.x < width-54) {
+        this.x += this.speed;
       }
       this.guardstill = false;
     }
     else if (keyIsDown(LEFT_ARROW)) {
       this.isRight = false;
-      if (this.playerX > -6) {
-        this.playerX -= this.speed;
+      if (this.x > -6) {
+        this.x -= this.speed;
+      }
+      this.guardstill = false;
+    }
+    else if (keyIsDown(UP_ARROW)) {
+      if (this.y > - 2) {
+        this.y -= this.speed;
+      }
+      this.guardstill = false;
+    }
+    else if (keyIsDown(DOWN_ARROW)) {
+      if (this.y < height-60) {
+        this.y += this.speed;
       }
       this.guardstill = false;
     }
@@ -62,51 +76,63 @@ class Player {
     for (let y = 0; y < tilesHigh; y++) {
       for (let x = 0; x < tilesWide; x++) {
         if (isChanged === false) {
-          if (tiles[y][x] === "P" && tiles[y][x] === tiles[1][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
-            level++;
+          if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(UP_ARROW)){
+            this.level++;
             levelLoader();
-            isChanged = true;
+            this.isChanged = true;
           }
-          else if (tiles[y][x] === "A" && tiles[y][x] === tiles[1][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
-            level++;
+          else if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(UP_ARROW)){
+            this.level++;
             levelLoader();
-            isChanged = true;
+            this.isChanged = true;
           }
-          else if (tiles[y][x] === "T" && tiles[y][x] === tiles[2][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
-            level++;
+          else if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(DOWN_ARROW)){
+            this.level++;
             levelLoader();
-            isChanged = true;
+            this.isChanged = true;
           }
-          else if (tiles[y][x] === "H" && tiles[y][x] === tiles[2][Math.floor((this.playerX+30)/60)] && keyIsDown(UP_ARROW)){
-            level++;
+          else if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(DOWN_ARROW)){
+            this.level++;
             levelLoader();
-            isChanged = true;
+            this.isChanged = true;
           }
-          else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((this.playerX+30)/60)] && keyIsDown(DOWN_ARROW)){
-            level--;
+          else if (tiles[y][x] === "p" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(LEFT_ARROW)){
+            this.level--;
             levelLoader();
-            isChanged = true;
+            this.isChanged = true;
           }
-          else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((this.playerX+30)/60)] && keyIsDown(DOWN_ARROW)){
-            level--;
+          else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(LEFT_ARROW)){
+            this.level--;
             levelLoader();
-            isChanged = true;
+            this.isChanged = true;
+          }
+          else if (tiles[y][x] === "a" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(RIGHT_ARROW)){
+            this.level--;
+            levelLoader();
+            this.isChanged = true;
+          }
+          else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(RIGHT_ARROW)){
+            this.level--;
+            levelLoader();
+            this.isChanged = true;
           }
         }
         else {
-          if (wait === 1200) {
-            isChanged = false;
-            wait = 0;
+          if (this.wait === 1200) {
+            this.isChanged = false;
+            this.wait = 0;
           }
           else {
-            wait++;
+            this.wait++;
           }
         }
       }
     }
   }
 
-  
+  levelLoader() {
+    this.lines = this.levelSet[this.level];
+  }
 
   damage() {
 
@@ -273,7 +299,7 @@ function preload() {
 
 function setup() {
   // Keep 5:1 ratio
-  createCanvas(1200, 240);
+  createCanvas(1320, 720);
   levelLoader();
 
   // Splicing the sprite sheet into 24 images then putting them into an array

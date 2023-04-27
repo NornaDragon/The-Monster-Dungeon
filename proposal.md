@@ -10,6 +10,8 @@ A dungeon crawler with enemies and helpful allies.
 
 - Room change through doors (Complete)
 
+- layout change
+
 - Music and sound effects
 
 - Companion AI
