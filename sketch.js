@@ -3,157 +3,17 @@
 // 27/04/2023
 //
 // Extra for Experts:
-// 
 
 // How to animate my sprite sheet animations
 // https://www.youtube.com/watch?v=3noMeuufLZY
 
-class Player {
-  constructor() {
-    this.x = 600;
-    this.y = 300;
-    this.speed = 4.4;
-    this.viewed = false;
-    this.life = 100;
-    this.guardstill = true;
-    this.isUp = true;
-    this.isRight = false;
-    this.level = 0;
-    this.levelSet = [];
-    this.isChanged = false;
-    this.wait = 0;
-    this.lines;
-  }
-
-  player() {
-    if (this.guardstill) {
-      if (this.isRight) {
-        image(guardRightAnimation[frameCount % guardRightAnimation.length], this.x, this.y);
-      }
-      else {
-        image(guardAnimation[frameCount % guardAnimation.length], this.x, this.y);
-      }
-    }
-    else {
-      if (this.isRight) {
-        image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], this.x, this.y);
-      }
-      else {
-        image(guardWalkAnimation[frameCount % guardWalkAnimation.length], this.x, this.y);
-      }
-    }
-
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.isRight = true;
-      if (this.x < width-54) {
-        this.x += this.speed;
-      }
-      this.guardstill = false;
-    }
-    else if (keyIsDown(LEFT_ARROW)) {
-      this.isRight = false;
-      if (this.x > -6) {
-        this.x -= this.speed;
-      }
-      this.guardstill = false;
-    }
-    else if (keyIsDown(UP_ARROW)) {
-      if (this.y > - 2) {
-        this.y -= this.speed;
-      }
-      this.guardstill = false;
-    }
-    else if (keyIsDown(DOWN_ARROW)) {
-      if (this.y < height-60) {
-        this.y += this.speed;
-      }
-      this.guardstill = false;
-    }
-    else {
-      this.guardstill = true;
-    }
-
-    for (let y = 0; y < tilesHigh; y++) {
-      for (let x = 0; x < tilesWide; x++) {
-        if (isChanged === false) {
-          if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(UP_ARROW)){
-            this.level++;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(UP_ARROW)){
-            this.level++;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(DOWN_ARROW)){
-            this.level++;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((this.y+30)/60)][Math.floor((this.x+30)/60)] && keyIsDown(DOWN_ARROW)){
-            this.level++;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "p" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(LEFT_ARROW)){
-            this.level--;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(LEFT_ARROW)){
-            this.level--;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "a" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(RIGHT_ARROW)){
-            this.level--;
-            levelLoader();
-            this.isChanged = true;
-          }
-          else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((this.x+30)/60)] && keyIsDown(RIGHT_ARROW)){
-            this.level--;
-            levelLoader();
-            this.isChanged = true;
-          }
-        }
-        else {
-          if (this.wait === 1200) {
-            this.isChanged = false;
-            this.wait = 0;
-          }
-          else {
-            this.wait++;
-          }
-        }
-      }
-    }
-  }
-
-  levelLoader() {
-    this.lines = this.levelSet[this.level];
-  }
-
-  damage() {
-
-  }
-
-  isDead() {
-    return this.life <= 0;
-  }
-}
-
 class Enemy {
   constructor() {
     this.x = random(width);
-    this.playerX = 0;
-    this.y = 123;
+    this.y = random(height);
     this.speed = 4.4;
     this.viewed = false;
     this.life = 100;
-    this.guardstill = true;
-    this.isUp = true;
-    this.isRight = false;
   }
 
   easyEnemy() {
@@ -179,60 +39,41 @@ class Enemy {
   }
 }
 
-let player;
 let badGuys = [];
 
-// Starting point for the movement of the player character
-let moveX = 0;
-let moveY = 123;
+let moveX, moveY;
 
-// Arrays to hold the animations of all the states of all the characters
-
-// Guard idle left and right
+let Assets24fps_60x60;
 let guardAnimation = [];
 let guardRightAnimation = [];
-// Guard walk left and right
 let guardWalkAnimation = [];
 let guardRightWalkAnimation = [];
-// Grem idle left
 let gremAnimation = [];
 
-
-let tiles;
-let levelBackground;
-
-// Stationary blocks
-let brick, dirt, empty, owen;
-let pathwayTopLeft, pathwayTopRight, pathwayBottomLeft, pathwayBottomRight;
-let pathwayLeft, pathwayRight;
-
-// Map for each room
-let map0, map1, map2, map3, map4, map5, map6, map7, map8;
-
-// Base animation guide for all charcters
-let Assets24fps_60x60;
-
-// Animation sprite sheets
 let guardIdleImage, guardRightIdleImage,guardFrontIdleImage, guardBackIdleImage, guardWalkImage, guardRightWalkImage;
 let gremIdleImage;
 
-// Level logic
+let guardstill = true;
+let isUp = true;
+let isRight = false;
+let speed = 4.4;
+
+let level = 0;
+let levelSet = [];
+
+let isChanged = false;
+let wait = 0;
+
+let tiles;
 let tilesHigh, tilesWide;
 let tileWidth, tileHeight;
 let lines;
 
-// Direction check
-let guardstill = true;
-let isUp = true;
-let isRight = false;
-
-// Level check
-let level = 0;
-let levelSet = [];
-
-// Room change check + a stopper to make that it doesn't go to fast
-let isChanged = false;
-let wait = 0;
+let levelBackground;
+let brick, dirt, empty, owen;
+let pathwayTopLeft, pathwayTopRight, pathwayBottomLeft, pathwayBottomRight;
+let pathwayLeft, pathwayRight;
+let map0, map1, map2, map3, map4, map5, map6, map7, map8;
 
 // FOR IMAGE ASSETS
 function preload() {
@@ -299,45 +140,12 @@ function preload() {
 
 function setup() {
   createCanvas(1440, 840);
+  moveX = width/2;
+  moveY = height/2;
   levelLoader();
+  animationSpilce();
 
-  // Splicing the sprite sheet into 24 images then putting them into an array
-  let guardFrames = Assets24fps_60x60.frames;
-  for (let i = 0; i < guardFrames.length; i++) {
-    let pos = guardFrames[i].position;
-    let img = guardIdleImage.get(pos.x, pos.y, pos.w, pos.h);
-    guardAnimation.push(img);
-  }
 
-  let guardRightFrames = Assets24fps_60x60.frames;
-  for (let i = 0; i < guardRightFrames.length; i++) {
-    let pos = guardRightFrames[i].position;
-    let img = guardRightIdleImage.get(pos.x, pos.y, pos.w, pos.h);
-    guardRightAnimation.push(img);
-  }
-
-  let guardWalkFrames = Assets24fps_60x60.frames;
-  for (let i = 0; i < guardWalkFrames.length; i++) {
-    let pos = guardWalkFrames[i].position;
-    let img = guardWalkImage.get(pos.x, pos.y, pos.w, pos.h);
-    guardWalkAnimation.push(img);
-  }
-
-  let guardRightWalkFrames = Assets24fps_60x60.frames;
-  for (let i = 0; i < guardRightWalkFrames.length; i++) {
-    let pos = guardRightWalkFrames[i].position;
-    let img = guardRightWalkImage.get(pos.x, pos.y, pos.w, pos.h);
-    guardRightWalkAnimation.push(img);
-  }
-
-  let gremIdleFrames = Assets24fps_60x60.frames;
-  for (let i = 0; i < gremIdleFrames.length; i++) {
-    let pos = gremIdleFrames[i].position;
-    let img = gremIdleImage.get(pos.x, pos.y, pos.w, pos.h);
-    gremAnimation.push(img);
-  }
-
-  // Creating tiles for the images to 'sit' on
   tilesHigh = lines.length;
   tilesWide = lines[0].length;
 
@@ -352,101 +160,20 @@ function setup() {
       tiles[y][x] = tileType;
     }
   }
-
-  player = new Player();
 }
 
 function draw() {
   display();
-  player.player();
-  // player.playerMove();
-  // allEnemy();
+  theplayer();
 }
 
-function levelLoader() {
-  lines = levelSet[level];
-}
-
-function display() {
-  image(levelBackground, 0, 0, width, height);
-  // Creating tiles for the images to 'sit' on (repeating)
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      let tileType = lines[y][x];
-      tiles[y][x] = tileType;
-    }
-  }
-
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      showTile(tiles[y][x], x, y);
-    }
-  }
-}
-
-
-// If the guard is within the PATH and presses up it goes to next room
-// If the guard is within the th and presses down it goes to next room
-// 'wait' used as a sortof 'sleep' function
-// 'isChange' used with 'wait' to stop the rooms from changing to fast
-// Math.floor((moveX+30)/60) moveX+30 gets where on the canvas the guard is, /60 get it close to the array number, and floor gets it the last bit 
-
-function roomChange() {
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      if (isChanged === false) {
-        if (tiles[y][x] === "P" && tiles[y][x] === tiles[1][Math.floor((player.playerX+30)/60)] && keyIsDown(UP_ARROW)){
-          level++;
-          levelLoader();
-          isChanged = true;
-        }
-        else if (tiles[y][x] === "A" && tiles[y][x] === tiles[1][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
-          level++;
-          levelLoader();
-          isChanged = true;
-        }
-        else if (tiles[y][x] === "T" && tiles[y][x] === tiles[2][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
-          level++;
-          levelLoader();
-          isChanged = true;
-        }
-        else if (tiles[y][x] === "H" && tiles[y][x] === tiles[2][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
-          level++;
-          levelLoader();
-          isChanged = true;
-        }
-        else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
-          level--;
-          levelLoader();
-          isChanged = true;
-        }
-        else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
-          level--;
-          levelLoader();
-          isChanged = true;
-        }
-      }
-      else {
-        if (wait === 1200) {
-          isChanged = false;
-          wait = 0;
-        }
-        else {
-          wait++;
-        }
-      }
-    }
-  }
-}
-
-// Movement and changing image based on direction and whether their in movement
-function guardTravel() {
+function theplayer() {
   if (guardstill) {
     if (isRight) {
-      image(guardRightAnimation[frameCount % guardRightAnimation.length], moveX + 3, moveY);
+      image(guardRightAnimation[frameCount % guardRightAnimation.length], moveX, moveY);
     }
     else {
-      image(guardAnimation[frameCount % guardAnimation.length], moveX + 3, moveY);
+      image(guardAnimation[frameCount % guardAnimation.length], moveX, moveY);
     }
   }
   else {
@@ -458,29 +185,95 @@ function guardTravel() {
     }
   }
 
+
   if (keyIsDown(RIGHT_ARROW)) {
     isRight = true;
     if (moveX < width-54) {
-      moveX += 4.4;
+      moveX += speed;
+    }
+    guardstill = false;
+  }
+  else if (keyIsDown(LEFT_ARROW)) {
+    isRight = false;
+    if (moveX > -6) {
+      moveX -= speed;
+    }
+    guardstill = false;
+  }
+  else if (keyIsDown(UP_ARROW)) {
+    if (moveY > - 2) {
+      moveY -= speed;
+    }
+    guardstill = false;
+  }
+  else if (keyIsDown(DOWN_ARROW)) {
+    if (moveY < height-60) {
+      moveY += speed;
     }
     guardstill = false;
   }
   else {
     guardstill = true;
   }
-  if (keyIsDown(LEFT_ARROW)) {
-    isRight = false;
-    if (moveX > -6) {
-      moveX -= 4.4;
+
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      if (isChanged === false) {
+        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(UP_ARROW)){
+          level++;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(UP_ARROW)){
+          level++;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(DOWN_ARROW)){
+          level++;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(DOWN_ARROW)){
+          level++;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "p" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(LEFT_ARROW)){
+          level--;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(LEFT_ARROW)){
+          level--;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "a" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(RIGHT_ARROW)){
+          level--;
+          levelLoader();
+          isChanged = true;
+        }
+        else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(RIGHT_ARROW)){
+          level--;
+          levelLoader();
+          isChanged = true;
+        }
+        
+        else {
+          if (wait === 1200) {
+            isChanged = false;
+            wait = 0;
+          }
+          else {
+            wait++;
+          }
+        } 
+      }
     }
-    guardstill = false;
-  }
-  if (keyIsDown(RIGHT_ARROW) && keyIsDown(LEFT_ARROW)) {
-    guardstill = true;
   }
 }
 
-// Used to show first and last level and used to make sure animation works on different images
 function allEnemy() {
   if (level === 0 || level === 1 || level === 2) {
     let easy = new Enemy();
@@ -523,7 +316,90 @@ function allEnemy() {
   }
 }
 
-// Putting images on to the tiles
+function icons() {
+  // Health bar
+
+  // Magic bar
+
+  // Status effect (Heal/damage)
+
+  // Ally/Companion effect (Heal/stat increse)
+
+  // Melee Damage
+
+  // Ranged Damage
+
+  // Magic Damage
+}
+
+function animationSpilce() {
+  let guardFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardFrames.length; i++) {
+    let pos = guardFrames[i].position;
+    let img = guardIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardAnimation.push(img);
+  }
+
+  let guardRightFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardRightFrames.length; i++) {
+    let pos = guardRightFrames[i].position;
+    let img = guardRightIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardRightAnimation.push(img);
+  }
+
+  let guardWalkFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardWalkFrames.length; i++) {
+    let pos = guardWalkFrames[i].position;
+    let img = guardWalkImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardWalkAnimation.push(img);
+  }
+
+  let guardRightWalkFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardRightWalkFrames.length; i++) {
+    let pos = guardRightWalkFrames[i].position;
+    let img = guardRightWalkImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardRightWalkAnimation.push(img);
+  }
+
+  let gremIdleFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < gremIdleFrames.length; i++) {
+    let pos = gremIdleFrames[i].position;
+    let img = gremIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    gremAnimation.push(img);
+  }
+}
+
+function levelLoader() {
+  lines = levelSet[level];
+}
+
+function display() {
+  image(levelBackground, 0, 0, width, height);
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      let tileType = lines[y][x];
+      tiles[y][x] = tileType;
+    }
+  }
+
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      showTile(tiles[y][x], x, y);
+    }
+  }
+}
+
+function createEmpty2dArray(cols, rows) {
+  let emptyGrid = [];
+  for (let y = 0; y < rows; y++) {
+    emptyGrid.push([]);
+    for (let x = 0; x < cols; x++) {
+      emptyGrid[y].push(0);
+    }
+  }
+  return emptyGrid;
+}
+
 function showTile(location, x, y) {
   if (location === "D") {
     image(dirt, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
@@ -582,15 +458,4 @@ function showTile(location, x, y) {
   else {
     image(empty, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
   }
-}
-
-function createEmpty2dArray(cols, rows) {
-  let emptyGrid = [];
-  for (let y = 0; y < rows; y++) {
-    emptyGrid.push([]);
-    for (let x = 0; x < cols; x++) {
-      emptyGrid[y].push(0);
-    }
-  }
-  return emptyGrid;
 }
