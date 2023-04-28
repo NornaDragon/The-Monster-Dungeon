@@ -248,7 +248,7 @@ function preload() {
   levelSet.push(loadStrings("assets/levels/8.txt"));  
 
   // Load background
-  levelBackground = loadImage("assets/image_and_animation/scenery/aroace_background.png");
+  levelBackground = loadImage("assets/image_and_animation/scenery/mapidea.png");
 
   // Load tile images
 
@@ -298,8 +298,7 @@ function preload() {
 }
 
 function setup() {
-  // Keep 5:1 ratio
-  createCanvas(1320, 720);
+  createCanvas(1440, 840);
   levelLoader();
 
   // Splicing the sprite sheet into 24 images then putting them into an array
