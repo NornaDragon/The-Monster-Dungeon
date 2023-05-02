@@ -43,7 +43,11 @@ let badGuys = [];
 
 let moveX, moveY;
 
-let nullhead, firehead, poisonhead, healthhead, magichead;
+let nullhead, firehead, poisonhead, healthhead, magichead, hurthead;
+let fullhealthbar, lowhealthbar, fullmagicbar, lowmagicbar;
+let statusEffect = 0;
+let health = 1;
+let magic = 1;
 
 let Assets24fps_60x60;
 let guardAnimation = [];
@@ -100,7 +104,12 @@ function preload() {
   poisonhead = loadImage("assets/image_and_animation/headicon/poisonhead.png");
   healthhead = loadImage("assets/image_and_animation/headicon/healthhead.png");
   magichead = loadImage("assets/image_and_animation/headicon/magichead.png");
+  hurthead = loadImage("assets/image_and_animation/headicon/hurthead.png");
 
+  fullhealthbar = loadImage("assets/image_and_animation/baricon/healthfull.png");
+  lowhealthbar = loadImage("assets/image_and_animation/baricon/healthlow.png");
+  fullmagicbar = loadImage("assets/image_and_animation/baricon/magicfull.png");
+  lowmagicbar = loadImage("assets/image_and_animation/baricon/magiclow.png");
   // Map
   map0 = loadImage("assets/image_and_animation/map/map0.png");
   map1 = loadImage("assets/image_and_animation/map/map1.png");
@@ -326,7 +335,10 @@ function allEnemy() {
 }
 
 function icons() {
-  let statusEffect = 1;
+  noStroke();
+  fill(0, 0, 0, 150);
+  rect(60, 0, 420, 60);
+  // head display 
   if (statusEffect === 0) {
     image(nullhead, 60, 0, 60, 60);
   }
@@ -342,11 +354,61 @@ function icons() {
   else if (statusEffect === 4) {
     image(magichead, 60, 0, 60, 60);
   }
+  else if (statusEffect === 5) {
+    image(hurthead, 60, 0, 60, 60);
+  }
+  //health bar display
+  if (health === 1) {
+    image(fullhealthbar, 120, 0, 180, 60);
+  }
+  else if (health === 0) {
+    image(lowhealthbar, 120, 0, 180, 60);
+  }
+  // magic bar display
+  if (magic === 1) {
+    image(fullmagicbar, 300, 0, 180, 60);
+  }
+  else if (magic === 0) {
+    image(lowmagicbar, 300, 0, 180, 60);
+  }
+  // head brain
+  if (key === "0") {
+    statusEffect = 0;
+  }
+  else if (key === "1") {
+    statusEffect = 1;
+  }
+  else if (key === "2") {
+    statusEffect = 2;
+  }
+  else if (key === "3") {
+    statusEffect = 3;
+  }
+  else if (key === "4") {
+    statusEffect = 4;
+  }
+  else if (key === "5") {
+    statusEffect = 5;
+  }
+  // health bar brain
+  if (key === "=") {
+    health = 1;
+  }
+  else if (key === "-") {
+    health = 0;
+  }
+  // Magic bar brain
+  if (key === ".") {
+    magic = 1;
+  }
+  else if (key === ",") {
+    magic = 0;
+  }
+
+  stroke(25);
+  fill(0, 255, 0);
+  rect(122, 2, 178, 56, 50);
   // Health bar
-
-  // Magic bar
-
-  // Status effect (Heal/damage)
 
   // Ally/Companion effect (Heal/stat increse)
 
