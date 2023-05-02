@@ -11,7 +11,7 @@ class Enemy {
   constructor() {
     this.x = random(width);
     this.y = random(height);
-    this.speed = 4.4;
+    this.moveSpeed = 4.4;
     this.viewed = false;
     this.life = 100;
   }
@@ -31,10 +31,10 @@ class Enemy {
   enemyMove() {
     let choice = random(100);
     if (choice < 50) {
-      this.x -= this.speed;
+      this.x -= this.moveSpeed;
     }
     else if (choice < 100) {
-      this.x += this.speed;
+      this.x += this.moveSpeed;
     }
   }
 }
@@ -42,6 +42,8 @@ class Enemy {
 let badGuys = [];
 
 let moveX, moveY;
+
+let nullhead, firehead, poisonhead, healthhead, magichead;
 
 let Assets24fps_60x60;
 let guardAnimation = [];
@@ -56,7 +58,7 @@ let gremIdleImage;
 let guardstill = true;
 let isUp = true;
 let isRight = false;
-let speed = 4.4;
+let moveSpeed = 4.4;
 
 let level = 0;
 let levelSet = [];
@@ -92,6 +94,12 @@ function preload() {
   levelBackground = loadImage("assets/image_and_animation/scenery/mapidea.png");
 
   // Load tile images
+
+  nullhead = loadImage("assets/image_and_animation/headicon/nullhead.png");
+  firehead = loadImage("assets/image_and_animation/headicon/firehead.png");
+  poisonhead = loadImage("assets/image_and_animation/headicon/poisonhead.png");
+  healthhead = loadImage("assets/image_and_animation/headicon/healthhead.png");
+  magichead = loadImage("assets/image_and_animation/headicon/magichead.png");
 
   // Map
   map0 = loadImage("assets/image_and_animation/map/map0.png");
@@ -165,6 +173,7 @@ function setup() {
 function draw() {
   display();
   theplayer();
+  icons();
 }
 
 function theplayer() {
@@ -189,26 +198,26 @@ function theplayer() {
   if (keyIsDown(RIGHT_ARROW)) {
     isRight = true;
     if (moveX < width-54) {
-      moveX += speed;
+      moveX += moveSpeed;
     }
     guardstill = false;
   }
   else if (keyIsDown(LEFT_ARROW)) {
     isRight = false;
     if (moveX > -6) {
-      moveX -= speed;
+      moveX -= moveSpeed;
     }
     guardstill = false;
   }
   else if (keyIsDown(UP_ARROW)) {
     if (moveY > - 2) {
-      moveY -= speed;
+      moveY -= moveSpeed;
     }
     guardstill = false;
   }
   else if (keyIsDown(DOWN_ARROW)) {
     if (moveY < height-60) {
-      moveY += speed;
+      moveY += moveSpeed;
     }
     guardstill = false;
   }
@@ -317,6 +326,22 @@ function allEnemy() {
 }
 
 function icons() {
+  let statusEffect = 1;
+  if (statusEffect === 0) {
+    image(nullhead, 60, 0, 60, 60);
+  }
+  else if (statusEffect === 1) {
+    image(firehead, 60, 0, 60, 60);
+  }
+  else if (statusEffect === 2) {
+    image(poisonhead, 60, 0, 60, 60);
+  }
+  else if (statusEffect === 3) {
+    image(healthhead, 60, 0, 60, 60);
+  }
+  else if (statusEffect === 4) {
+    image(magichead, 60, 0, 60, 60);
+  }
   // Health bar
 
   // Magic bar
