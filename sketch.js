@@ -46,7 +46,7 @@ let moveX, moveY;
 let nullhead, firehead, poisonhead, healthhead, magichead, hurthead;
 let fullhealthbar, lowhealthbar, fullmagicbar, lowmagicbar;
 let statusEffect = 0;
-let health = 1;
+let health = 174;
 let magic = 1;
 
 let Assets24fps_60x60;
@@ -358,18 +358,39 @@ function icons() {
     image(hurthead, 60, 0, 60, 60);
   }
   //health bar display
-  if (health === 1) {
-    image(fullhealthbar, 120, 0, 180, 60);
+  if (health > 174/3) {
+    noStroke();
+    fill(0, 255, 0);
+    rect(123, 3, health, 54, 50);
+    stroke(0);
+    strokeWeight(2);
+    fill(0, 255, 0, 50);
+    rect(123, 3, 174, 54, 50);
   }
-  else if (health === 0) {
-    image(lowhealthbar, 120, 0, 180, 60);
+  else {
+    noStroke();
+    fill(255, 0, 0);
+    rect(123, 3, health, 54, 50);
+    stroke(0);
+    strokeWeight(2);
+    fill(255, 0, 0, 50);
+    rect(123, 3, 174, 54, 50);
   }
   // magic bar display
   if (magic === 1) {
-    image(fullmagicbar, 300, 0, 180, 60);
+    stroke(0);
+    strokeWeight(2);
+    fill(0, 0, 255);
+    rect(303, 3, 174, 54, 50);
   }
   else if (magic === 0) {
-    image(lowmagicbar, 300, 0, 180, 60);
+    noStroke();
+    fill(0, 0, 255);
+    rect(303, 3, 60, 54, 50);
+    stroke(0);
+    strokeWeight(2);
+    fill(0, 0, 255, 50);
+    rect(303, 3, 174, 54, 50);
   }
   // head brain
   if (key === "0") {
@@ -392,10 +413,10 @@ function icons() {
   }
   // health bar brain
   if (key === "=") {
-    health = 1;
+    health = 174;
   }
   else if (key === "-") {
-    health = 0;
+    health = 174/4;
   }
   // Magic bar brain
   if (key === ".") {
@@ -405,9 +426,6 @@ function icons() {
     magic = 0;
   }
 
-  stroke(25);
-  fill(0, 255, 0);
-  rect(122, 2, 178, 56, 50);
   // Health bar
 
   // Ally/Companion effect (Heal/stat increse)
