@@ -371,7 +371,7 @@ function icons() {
   if (health > 174/3) {
     noStroke();
     fill(34, 177, 76);
-    rect(123, 3, health, 54, 50);
+    rect(123, 3, health, 54, 50, 50, 50, 50);
     stroke(0);
     strokeWeight(2);
     fill(34, 177, 76, 50);
@@ -380,7 +380,7 @@ function icons() {
   else {
     noStroke();
     fill(237, 28, 36);
-    rect(123, 3, health, 54, 50*health**2);
+    rect(123, 3, health, 54, 50, 200, 50, 100);
     stroke(0);
     strokeWeight(2);
     fill(237, 28, 36, 50);
@@ -423,10 +423,10 @@ function icons() {
   }
   // health bar brain
   if (key === "=") {
-    health = 174;
+    health = 59;
   }
   else if (key === "-") {
-    health = 174/4;
+    health = 48;
   }
   // Magic bar brain
   if (key === ".") {
