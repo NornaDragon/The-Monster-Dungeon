@@ -81,7 +81,7 @@ let pathwayTopLeft, pathwayTopRight, pathwayBottomLeft, pathwayBottomRight;
 let pathwayLeft, pathwayRight;
 let map0, map1, map2, map3, map4, map5, map6, map7, map8;
 
-// FOR IMAGE ASSETS
+// FOR IMAGE AND LEVEL ASSETS
 function preload() {
   // Load level data
   levelSet.push(loadStrings("assets/levels/0.txt"));
@@ -292,6 +292,16 @@ function theplayer() {
   }
 }
 
+function wallBlock() {
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      if (tiles[x][y] === "p") {
+        return x;
+      }
+    }
+  }
+}
+
 function allEnemy() {
   if (level === 0 || level === 1 || level === 2) {
     let easy = new Enemy();
@@ -360,36 +370,36 @@ function icons() {
   //health bar display
   if (health > 174/3) {
     noStroke();
-    fill(0, 255, 0);
+    fill(34, 177, 76);
     rect(123, 3, health, 54, 50);
     stroke(0);
     strokeWeight(2);
-    fill(0, 255, 0, 50);
+    fill(34, 177, 76, 50);
     rect(123, 3, 174, 54, 50);
   }
   else {
     noStroke();
-    fill(255, 0, 0);
-    rect(123, 3, health, 54, 50);
+    fill(237, 28, 36);
+    rect(123, 3, health, 54, 50*health**2);
     stroke(0);
     strokeWeight(2);
-    fill(255, 0, 0, 50);
+    fill(237, 28, 36, 50);
     rect(123, 3, 174, 54, 50);
   }
   // magic bar display
   if (magic === 1) {
     stroke(0);
     strokeWeight(2);
-    fill(0, 0, 255);
+    fill(0, 183, 239);
     rect(303, 3, 174, 54, 50);
   }
   else if (magic === 0) {
     noStroke();
-    fill(0, 0, 255);
+    fill(0, 183, 239);
     rect(303, 3, 60, 54, 50);
     stroke(0);
     strokeWeight(2);
-    fill(0, 0, 255, 50);
+    fill(0, 183, 239, 50);
     rect(303, 3, 174, 54, 50);
   }
   // head brain
