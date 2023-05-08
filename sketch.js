@@ -183,6 +183,7 @@ function draw() {
   display();
   theplayer();
   icons();
+  // console.log(wait);
 }
 
 function theplayer() {
@@ -237,56 +238,55 @@ function theplayer() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
       if (isChanged === false) {
-        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(UP_ARROW)){
+        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(UP_ARROW)){
+        else if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(DOWN_ARROW)){
+        else if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((y+30)/60)][Math.floor((x+30)/60)] && keyIsDown(DOWN_ARROW)){
+        else if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "p" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(LEFT_ARROW)){
+        else if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "t" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(LEFT_ARROW)){
+        else if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "a" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        else if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "h" && tiles[y][x] === tiles[3][Math.floor((x+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        else if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        
-        else {
-          if (wait === 1200) {
-            isChanged = false;
-            wait = 0;
-          }
-          else {
-            wait++;
-          }
-        } 
+      }
+      else {
+        if (wait === 100) {
+          isChanged = false;
+          wait = 0;
+        }
+        else if (wait < 100) {
+          wait++;
+        }
       }
     }
   }
@@ -423,7 +423,7 @@ function icons() {
   }
   // health bar brain
   if (key === "=") {
-    health = 59;
+    health = 174;
   }
   else if (key === "-") {
     health = 48;
