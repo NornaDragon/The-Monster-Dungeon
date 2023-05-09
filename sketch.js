@@ -42,6 +42,7 @@ class Enemy {
 let badGuys = [];
 
 let moveX, moveY;
+let canMove = true;
 
 let nullhead, firehead, poisonhead, healthhead, magichead, hurthead;
 let fullhealthbar, lowhealthbar, fullmagicbar, lowmagicbar;
@@ -161,6 +162,7 @@ function setup() {
   moveY = height/2;
   levelLoader();
   animationSpilce();
+  document.addEventListener("contextmenu", event => event.preventDefault());
 
 
   tilesHigh = lines.length;
@@ -182,7 +184,9 @@ function setup() {
 function draw() {
   display();
   theplayer();
+  change();
   icons();
+  
   // console.log(wait);
 }
 
@@ -235,6 +239,19 @@ function theplayer() {
     guardstill = true;
   }
 
+  // for (let y = 0; y < tilesHigh; y++) {
+  //   for (let x = 0; x < tilesWide; x++) {
+  //     if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)]){
+  //       canMove = false;
+  //     }
+  //     else {
+  //       canMove = true;
+  //     }
+  //   }
+  // }
+}
+
+function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
       if (isChanged === false) {
@@ -243,37 +260,37 @@ function theplayer() {
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
+        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
+        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
+        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
           level++;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
+        if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
+        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
         }
-        else if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level--;
           levelLoader();
           isChanged = true;
@@ -284,7 +301,7 @@ function theplayer() {
           isChanged = false;
           wait = 0;
         }
-        else if (wait < 100) {
+        else {
           wait++;
         }
       }
