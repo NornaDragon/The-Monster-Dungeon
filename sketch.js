@@ -42,7 +42,10 @@ class Enemy {
 let badGuys = [];
 
 let moveX, moveY;
-let canMove = true;
+let canMoveUP = true;
+let canMoveRIGHT = true;
+let canMoveLEFT = true;
+let canMoveDOWN = true;
 
 let nullhead, firehead, poisonhead, healthhead, magichead, hurthead;
 let fullhealthbar, lowhealthbar, fullmagicbar, lowmagicbar;
@@ -209,27 +212,27 @@ function theplayer() {
   }
 
 
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(RIGHT_ARROW) && canMoveRIGHT === true) {
     isRight = true;
     if (moveX < width-54) {
       moveX += moveSpeed;
     }
     guardstill = false;
   }
-  else if (keyIsDown(LEFT_ARROW)) {
+  else if (keyIsDown(LEFT_ARROW) && canMoveLEFT === true) {
     isRight = false;
     if (moveX > -6) {
       moveX -= moveSpeed;
     }
     guardstill = false;
   }
-  else if (keyIsDown(UP_ARROW)) {
+  else if (keyIsDown(UP_ARROW) && canMoveUP === true) {
     if (moveY > - 2) {
       moveY -= moveSpeed;
     }
     guardstill = false;
   }
-  else if (keyIsDown(DOWN_ARROW)) {
+  else if (keyIsDown(DOWN_ARROW) && canMoveDOWN === true) {
     if (moveY < height-60) {
       moveY += moveSpeed;
     }
@@ -239,16 +242,38 @@ function theplayer() {
     guardstill = true;
   }
 
-  // for (let y = 0; y < tilesHigh; y++) {
-  //   for (let x = 0; x < tilesWide; x++) {
-  //     if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)]){
-  //       canMove = false;
-  //     }
-  //     else {
-  //       canMove = true;
-  //     }
-  //   }
-  // }
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)+1][Math.floor((moveX+30)/60)]){
+        canMoveUP = false;
+      }
+      else {
+        canMoveUP = true;
+      }
+
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)-1][Math.floor((moveX+30)/60)]){
+        canMoveDOWN = false;
+      }
+      else {
+        canMoveDOWN = true;
+      }
+
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)]){
+        canMoveRIGHT = false;
+      }
+
+      else {
+        canMoveRIGHT = true;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)]){
+        canMoveLEFT = false;
+      }
+      
+      else {
+        canMoveLEFT = true;
+      }
+    }
+  }
 }
 
 function change() {
