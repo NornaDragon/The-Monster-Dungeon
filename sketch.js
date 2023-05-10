@@ -211,7 +211,6 @@ function theplayer() {
     }
   }
 
-
   if (keyIsDown(RIGHT_ARROW) && canMoveRIGHT === true) {
     isRight = true;
     if (moveX < width-54) {
@@ -242,33 +241,33 @@ function theplayer() {
     guardstill = true;
   }
 
+  //find way to check for a derection other than UP
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)+1][Math.floor((moveX+30)/60)]){
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && moveY < height - 120){
         canMoveUP = false;
       }
       else {
         canMoveUP = true;
       }
 
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)-1][Math.floor((moveX+30)/60)]){
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY-30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
         canMoveDOWN = false;
       }
       else {
         canMoveDOWN = true;
       }
-
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)]){
+      
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX < width - 120]){
         canMoveRIGHT = false;
       }
-
       else {
         canMoveRIGHT = true;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)]){
+
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX > 120]){
         canMoveLEFT = false;
       }
-      
       else {
         canMoveLEFT = true;
       }
@@ -329,16 +328,6 @@ function change() {
         else {
           wait++;
         }
-      }
-    }
-  }
-}
-
-function wallBlock() {
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      if (tiles[x][y] === "p") {
-        return x;
       }
     }
   }
