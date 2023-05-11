@@ -189,6 +189,7 @@ function draw() {
   theplayer();
   change();
   icons();
+  wallBlocks();
   
   // console.log(wait);
 }
@@ -251,7 +252,7 @@ function theplayer() {
         canMoveUP = true;
       }
 
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY-30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
         canMoveDOWN = false;
       }
       else {
@@ -270,6 +271,21 @@ function theplayer() {
       }
       else {
         canMoveLEFT = true;
+      }
+    }
+  }
+}
+
+// Make an array that holds if a wall is in that location
+// make that it knows what derection the play is coming for and trun off the proper key
+// look at vectors shelenburg
+function wallBlocks() {
+  for (let y = 0; y < tilesHigh; y++) {
+    for (let x = 0; x < tilesWide; x++) {
+      if (tiles[y][x] === "B") {
+        fill(255,0,0);
+        rect(x*60,y*60,60,60);
+        
       }
     }
   }
