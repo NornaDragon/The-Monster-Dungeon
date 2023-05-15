@@ -285,7 +285,6 @@ function wallBlocks() {
       if (tiles[y][x] === "B") {
         fill(255,0,0);
         rect(x*60,y*60,60,60);
-        
       }
     }
   }
