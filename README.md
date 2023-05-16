@@ -2,7 +2,7 @@
 cs-30 major project spring 2023
 
 
-## Code from other projects to keep in mind
+## Code from other projects to keep in mind (credited to Schellenberg)
 ### Walker-OOP
 
     class Walker {
