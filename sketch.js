@@ -8,24 +8,46 @@
 // https://www.youtube.com/watch?v=3noMeuufLZY
 
 class Enemy {
-  constructor() {
-    this.x = random(width);
-    this.y = random(height);
+  constructor(x, y, type) {
+    this.x = x;
+    this.y = y;
     this.moveSpeed = 4.4;
     this.viewed = false;
     this.life = 100;
+    this.type = type;
   }
 
-  easyEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-  }
-
-  midEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-  }
-
-  hardEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+  typesEnemy() {
+    if (this.type === 0) {
+      image(evilGuardAnimation[frameCount % evilGuardAnimation.length], this.x, this.y);
+    }
+    if (this.type === 1) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+    }
+    if (this.type === 2) {
+      image(bigGremAnimation[frameCount % bigGremAnimation.length], this.x, this.y);
+    }
+    if (this.type === 3) {
+      image(fireBigAnimation[frameCount % fireBigAnimation.length], this.x, this.y);
+    }
+    if (this.type === 4) {
+      image(magicMageAnimation[frameCount % magicMageAnimation.length], this.x, this.y);
+    }
+    if (this.type === 5) {
+      image(attackBargeletAnimation[frameCount % attackBargeletAnimation.length], this.x, this.y);
+    }
+    if (this.type === 6) {
+      image(slimeAnimation[frameCount % slimeAnimation.length], this.x, this.y);
+    }
+    if (this.type === 7) {
+      image(theSnakesAnimation[frameCount % theSnakesAnimation.length], this.x, this.y);
+    }
+    if (this.type === 8) {
+      image(bigEvilGuardAnimation[frameCount % bigEvilGuardAnimation.length], this.x, this.y);
+    }
+    if (this.type === 9) {
+      image(dragonAnimation[frameCount % dragonAnimation.length], this.x, this.y);
+    }
   }
 
   enemyMove() {
@@ -58,10 +80,30 @@ let guardAnimation = [];
 let guardRightAnimation = [];
 let guardWalkAnimation = [];
 let guardRightWalkAnimation = [];
+
 let gremAnimation = [];
+let bigGremAnimation = [];
+let evilGuardAnimation = [];
+let bigEvilGuardAnimation = [];
+let fireBigAnimation = [];
+let slimeAnimation = [];
+let magicMageAnimation = [];
+let attackBargeletAnimation = [];
+let theSnakesAnimation = [];
+let dragonAnimation = [];
 
 let guardIdleImage, guardRightIdleImage,guardFrontIdleImage, guardBackIdleImage, guardWalkImage, guardRightWalkImage;
+
 let gremIdleImage;
+let bigGremIdleImage;
+let evilGuardIdleImage;
+let bigEvilGuardIdleImage;
+let fireBigIdleImage;
+let slimeIdleImage;
+let magicMageIdleImage;
+let attackBargeIdleImage;
+let theSnakesIdleImage;
+let dragonIdleImage;
 
 let guardstill = true;
 let isUp = true;
@@ -349,9 +391,9 @@ function change() {
 }
 
 function allEnemy() {
-  if (level === 0 || level === 1 || level === 2) {
-    let easy = new Enemy();
-    badGuys.push(easy);
+  if (level === 1) {
+    let enemyType = new Enemy(100, 100);
+    badGuys.push(enemyType);
     badGuys.easyEnemy();
     for (let i = badGuys.length - 1; i >= 0; i--) {
       badGuys[i].easyEnemy();
