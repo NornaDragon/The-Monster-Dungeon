@@ -8,13 +8,14 @@
 // https://www.youtube.com/watch?v=3noMeuufLZY
 
 class Enemy {
-  constructor(x, y, type) {
+  constructor(x, y, type, element) {
     this.x = x;
     this.y = y;
     this.moveSpeed = 4.4;
     this.viewed = false;
     this.life = 100;
     this.type = type;
+    this.element = element;
   }
 
   typesEnemy() {
@@ -50,7 +51,35 @@ class Enemy {
     }
   }
 
-  enemyMove() {
+  enemyElement() {
+    if (this.element === "null") {
+      //
+    }
+    if (this.element === "fire") {
+      //
+    }
+    if (this.element === "ice") {
+      //
+    }
+    if (this.element === "poison") {
+      //
+    }
+    if (this.element === "magicDrain") {
+      //
+    }
+  }
+
+  smallEnemyMove() {
+    let choice = random(100);
+    if (choice < 50) {
+      this.x -= this.moveSpeed;
+    }
+    else if (choice < 100) {
+      this.x += this.moveSpeed;
+    }
+  }
+
+  bigEnemyMove() {
     let choice = random(100);
     if (choice < 50) {
       this.x -= this.moveSpeed;
@@ -390,45 +419,42 @@ function change() {
   }
 }
 
+// base done add code
 function allEnemy() {
   if (level === 1) {
-    let enemyType = new Enemy(100, 100);
-    badGuys.push(enemyType);
-    badGuys.easyEnemy();
-    for (let i = badGuys.length - 1; i >= 0; i--) {
-      badGuys[i].easyEnemy();
-      badGuys[i].enemyMove();
-  
-      if (badGuys[i].isDead()) {
-        badGuys.splice(i, 1);
-      }
-    }
+    let enemy1 = new Enemy(100, 100, 0);
   }
-  else if (level === 3 || level === 4 || level === 5) {
-    let easy = new Enemy();
-    badGuys.push(easy);
-    badGuys.midEnemy();
-    for (let i = badGuys.length - 1; i >= 0; i--) {
-      badGuys[i].midEnemy();
-      badGuys[i].enemyMove();
-  
-      if (badGuys[i].isDead()) {
-        badGuys.splice(i, 1);
-      }
-    }
+  if (level === 2) {
+    let enemy1 = new Enemy(100, 100, 1);
+    let enemy2 = new Enemy(100, 100, 1);
+    let enemy3 = new Enemy(100, 100, 2);
   }
-  else if (level === 6 || level === 7 || level === 8) {
-    let easy = new Enemy();
-    badGuys.push(easy);
-    badGuys.hardEnemy();
-    for (let i = badGuys.length - 1; i >= 0; i--) {
-      badGuys[i].hardEnemy();
-      badGuys[i].enemyMove();
-  
-      if (badGuys[i].isDead()) {
-        badGuys.splice(i, 1);
-      }
-    }
+  if (level === 3) {
+    let enemy1 = new Enemy(100, 100, 3);
+  }
+  if (level === 4) {
+    let enemy1 = new Enemy(100, 100, 4);
+    let enemy2 = new Enemy(100, 100, 5);
+  }
+  if (level === 5) {
+    let enemy1 = new Enemy(100, 100, 6);
+  }
+  if (level === 6) {
+    let enemy1 = new Enemy(100, 100, 7);
+    let enemy2 = new Enemy(100, 100, 7);
+    let enemy3 = new Enemy(100, 100, 7);
+    let enemy4 = new Enemy(100, 100, 7);
+  }
+  if (level === 7) {
+    let enemy1 = new Enemy(100, 100, 8);
+    let enemy2 = new Enemy(100, 100, 8);
+    let enemy3 = new Enemy(100, 100, 8);
+    let enemy4 = new Enemy(100, 100, 8);
+    let enemy5 = new Enemy(100, 100, 8);
+    let enemy6 = new Enemy(100, 100, 8);
+  }
+  if (level === 8) {
+    let boss = new Enemy(100, 100, 9);
   }
 }
 

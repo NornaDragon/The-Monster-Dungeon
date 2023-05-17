@@ -2,6 +2,24 @@
 cs-30 major project spring 2023
 
 
+## project remander 
+    0 = evilGuard
+    1 = gremAnimation
+    2 = bigGremAnimation
+    3 = fireBigAnimation
+    4 = magicMageAnimation
+    5 = attackBargeletAnimation
+    6 = slimeAnimation
+    7 = theSnakesAnimation
+    8 = bigEvilGuardAnimation
+    9 = dragonAnimation
+
+    null = no effect
+    fire = damage over time, faster speed
+    ice = no damage, stuck in place
+    poison = damage over time, slower speed
+
+
 ## Code from other projects to keep in mind (credited to Schellenberg)
 ### Walker-OOP
 
