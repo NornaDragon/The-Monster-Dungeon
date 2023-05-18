@@ -142,8 +142,7 @@ let moveSpeed = 4.4;
 let level = 0;
 let levelSet = [];
 
-let isChanged = false;
-let wait = 0;
+let defeated;
 
 let tiles;
 let tilesHigh, tilesWide;
@@ -314,37 +313,37 @@ function theplayer() {
   }
 
   //find way to check for a derection other than UP
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && moveY < height - 120){
-        canMoveUP = false;
-      }
-      else {
-        canMoveUP = true;
-      }
+  // for (let y = 0; y < tilesHigh; y++) {
+  //   for (let x = 0; x < tilesWide; x++) {
+  //     if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && moveY < height - 120){
+  //       canMoveUP = false;
+  //     }
+  //     else {
+  //       canMoveUP = true;
+  //     }
 
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
-        canMoveDOWN = false;
-      }
-      else {
-        canMoveDOWN = true;
-      }
+  //     if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
+  //       canMoveDOWN = false;
+  //     }
+  //     else {
+  //       canMoveDOWN = true;
+  //     }
       
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX < width - 120]){
-        canMoveRIGHT = false;
-      }
-      else {
-        canMoveRIGHT = true;
-      }
+  //     if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX < width - 120]){
+  //       canMoveRIGHT = false;
+  //     }
+  //     else {
+  //       canMoveRIGHT = true;
+  //     }
 
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX > 120]){
-        canMoveLEFT = false;
-      }
-      else {
-        canMoveLEFT = true;
-      }
-    }
-  }
+  //     if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX > 120]){
+  //       canMoveLEFT = false;
+  //     }
+  //     else {
+  //       canMoveLEFT = true;
+  //     }
+  //   }
+  // }
 }
 
 // Make an array that holds if a wall is in that location
@@ -364,55 +363,39 @@ function wallBlocks() {
 function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (isChanged === false) {
+      if (defeated === true) {
         if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
           level++;
           levelLoader();
-          isChanged = true;
         }
         if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
           level++;
           levelLoader();
-          isChanged = true;
         }
         if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
           level++;
           levelLoader();
-          isChanged = true;
         }
         if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
           level++;
           levelLoader();
-          isChanged = true;
+
         }
         if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
-          level--;
+          level++;
           levelLoader();
-          isChanged = true;
         }
         if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
-          level--;
+          level++;
           levelLoader();
-          isChanged = true;
         }
         if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
-          level--;
+          level++;
           levelLoader();
-          isChanged = true;
         }
         if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
-          level--;
+          level++;
           levelLoader();
-          isChanged = true;
-        }
-      }
-      else {
-        if (wait === 100) {
-          isChanged = false;
-          wait = 0;
-        }
-        else {
-          wait++;
         }
       }
     }
@@ -422,39 +405,98 @@ function change() {
 // base done add code
 function allEnemy() {
   if (level === 1) {
-    let enemy1 = new Enemy(100, 100, 0);
+    let enemy1 = new Enemy(100, 100, 0,"null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+
   }
   if (level === 2) {
-    let enemy1 = new Enemy(100, 100, 1);
-    let enemy2 = new Enemy(100, 100, 1);
-    let enemy3 = new Enemy(100, 100, 2);
+    let enemy1 = new Enemy(100, 100, 1, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+    let enemy2 = new Enemy(100, 100, 1, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.smallEnemyMove();
+    let enemy3 = new Enemy(100, 100, 2, "null");
+    enemy3.typesEnemy();
+    enemy3.enemyElement();
+    enemy3.bigEnemyMove();
   }
   if (level === 3) {
-    let enemy1 = new Enemy(100, 100, 3);
+    let enemy1 = new Enemy(100, 100, 3, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
   }
   if (level === 4) {
-    let enemy1 = new Enemy(100, 100, 4);
-    let enemy2 = new Enemy(100, 100, 5);
+    let enemy1 = new Enemy(100, 100, 4, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+
+    let enemy2 = new Enemy(100, 100, 5, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.bigEnemyMove();
   }
   if (level === 5) {
-    let enemy1 = new Enemy(100, 100, 6);
+    let enemy1 = new Enemy(100, 100, 6, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.bigEnemyMove();
   }
   if (level === 6) {
-    let enemy1 = new Enemy(100, 100, 7);
-    let enemy2 = new Enemy(100, 100, 7);
-    let enemy3 = new Enemy(100, 100, 7);
-    let enemy4 = new Enemy(100, 100, 7);
+    let enemy1 = new Enemy(100, 100, 7, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+    let enemy2 = new Enemy(100, 100, 7, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.smallEnemyMove();
+    let enemy3 = new Enemy(100, 100, 7, "null");
+    enemy3.typesEnemy();
+    enemy3.enemyElement();
+    enemy3.smallEnemyMove();
+    let enemy4 = new Enemy(100, 100, 7, "null");
+    enemy4.typesEnemy();
+    enemy4.enemyElement();
+    enemy4.smallEnemyMove();
   }
   if (level === 7) {
-    let enemy1 = new Enemy(100, 100, 8);
-    let enemy2 = new Enemy(100, 100, 8);
-    let enemy3 = new Enemy(100, 100, 8);
-    let enemy4 = new Enemy(100, 100, 8);
-    let enemy5 = new Enemy(100, 100, 8);
-    let enemy6 = new Enemy(100, 100, 8);
+    let enemy1 = new Enemy(100, 100, 8, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.bigEnemyMove();
+    let enemy2 = new Enemy(100, 100, 8, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.bigEnemyMove();
+    let enemy3 = new Enemy(100, 100, 8, "null");
+    enemy3.typesEnemy();
+    enemy3.enemyElement();
+    enemy3.bigEnemyMove();
+    let enemy4 = new Enemy(100, 100, 8, "null");
+    enemy4.typesEnemy();
+    enemy4.enemyElement();
+    enemy4.bigEnemyMove();
+    let enemy5 = new Enemy(100, 100, 8, "null");
+    enemy5.typesEnemy();
+    enemy5.enemyElement();
+    enemy5.bigEnemyMove();
+    let enemy6 = new Enemy(100, 100, 8, "null");
+    enemy6.typesEnemy();
+    enemy6.enemyElement();
+    enemy6.bigEnemyMove();
   }
   if (level === 8) {
     let boss = new Enemy(100, 100, 9);
+    boss.typesEnemy();
+    boss.enemyElement();
+    boss.bigEnemyMove();
   }
 }
 
