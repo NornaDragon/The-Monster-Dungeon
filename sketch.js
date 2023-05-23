@@ -262,9 +262,7 @@ function draw() {
   theplayer();
   change();
   icons();
-  // wallBlocks();
-  
-  // console.log(wait);
+  wallBlock();
 }
 
 function theplayer() {
@@ -316,15 +314,21 @@ function theplayer() {
   }
 }
 
-// Make an array that holds if a wall is in that location
-// make that it knows what derection the play is coming for and trun off the proper key
-// look at vectors shelenburg
-function wallBlocks() {
+
+function wallBlock() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B") {
-        fill(255,0,0);
-        rect(x*60,y*60,60,60);
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)) {
+        moveY += 60;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)) {
+        moveY -= 60;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)) {
+        moveX += 60;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)) {
+        moveX -= 60;
       }
     }
   }
@@ -334,28 +338,28 @@ function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
       if (defeated === true) {
-        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
+        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(LEFT_ARROW))){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
+        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(RIGHT_ARROW))){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
+        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
+        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level++;
           levelLoader();
           newplacment = true;
@@ -369,13 +373,6 @@ function change() {
           forward = false;
           startingplace();
         }
-        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
-          level--;
-          levelLoader();
-          newplacment = true;
-          forward = false;
-          startingplace();
-        }
         if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level--;
           levelLoader();
@@ -383,7 +380,14 @@ function change() {
           forward = false;
           startingplace();
         }
-        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(DOWN_ARROW))){
+          level--;
+          levelLoader();
+          newplacment = true;
+          forward = false;
+          startingplace();
+        }
+        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(DOWN_ARROW))){
           level--;
           levelLoader();
           newplacment = true;
@@ -396,47 +400,57 @@ function change() {
 }
 
 function startingplace() {
-  if (newplacment === true && forward === true) {
-    if (level === 1) {
-      moveX = 240;
-      moveY = 630;
-      newplacment = false;
+  if (newplacment === true) {
+    if (forward) {
+      if (level === 1) {
+        moveX = 240;
+      }
+      if (level === 2) {
+        moveX = 240;
+      }
+      if (level === 3) {
+        moveY = 660;
+      }
+      if (level === 4) {
+        moveY = 660;
+      }
+      if (level === 5) {
+        moveY = 660;
+      }
+      if (level === 6) {
+        moveX = 1260;
+      }
+      if (level === 7) {
+        moveY = 660;
+      }
+      if (level === 8) {
+        moveY = 660;
+      }
     }
-    if (level === 2) {
-      moveX = 240;
-      moveY = 630;
-      newplacment = false;
+    if (!forward) {
+      if (level === 0) {
+        moveX = 1020;
+      }
+      if (level === 1) {
+        moveX = 1140;
+      }
+      if (level === 2) {
+        moveY = 120;
+      }
+      if (level === 3) {
+        moveY = 120;
+      }
+      if (level === 4) {
+        moveY = 120;
+      }
+      if (level === 5) {
+        moveX = 120;
+      }
+      if (level === 6) {
+        moveY = 120;
+      }
     }
-    if (level === 3) {
-      moveX = 720;
-      moveY = 660;
-      newplacment = false;
-    }
-    if (level === 4) {
-      moveX = 720;
-      moveY = 660;
-      newplacment = false;
-    }
-    if (level === 5) {
-      moveX = 720;
-      moveY = 660;
-      newplacment = false;
-    }
-    if (level === 6) {
-      moveX = 720;
-      moveY = 660;
-      newplacment = false;
-    }
-    if (level === 7) {
-      moveX = 720;
-      moveY = 660;
-      newplacment = false;
-    }
-    if (level === 8) {
-      moveX = 720;
-      moveY = 660;
-      newplacment = false;
-    }
+    newplacment = false;
   }
 }
 
