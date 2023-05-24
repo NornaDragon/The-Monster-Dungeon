@@ -8,27 +8,78 @@
 // https://www.youtube.com/watch?v=3noMeuufLZY
 
 class Enemy {
-  constructor() {
-    this.x = random(width);
-    this.y = random(height);
+  constructor(x, y, type, element) {
+    this.x = x;
+    this.y = y;
     this.moveSpeed = 4.4;
     this.viewed = false;
     this.life = 100;
+    this.type = type;
+    this.element = element;
   }
 
-  easyEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+  typesEnemy() {
+    if (this.type === 0) {
+      image(evilGuardAnimation[frameCount % evilGuardAnimation.length], this.x, this.y);
+    }
+    if (this.type === 1) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+    }
+    if (this.type === 2) {
+      image(bigGremAnimation[frameCount % bigGremAnimation.length], this.x, this.y);
+    }
+    if (this.type === 3) {
+      image(fireBigAnimation[frameCount % fireBigAnimation.length], this.x, this.y);
+    }
+    if (this.type === 4) {
+      image(magicMageAnimation[frameCount % magicMageAnimation.length], this.x, this.y);
+    }
+    if (this.type === 5) {
+      image(attackBargeletAnimation[frameCount % attackBargeletAnimation.length], this.x, this.y);
+    }
+    if (this.type === 6) {
+      image(slimeAnimation[frameCount % slimeAnimation.length], this.x, this.y);
+    }
+    if (this.type === 7) {
+      image(theSnakesAnimation[frameCount % theSnakesAnimation.length], this.x, this.y);
+    }
+    if (this.type === 8) {
+      image(bigEvilGuardAnimation[frameCount % bigEvilGuardAnimation.length], this.x, this.y);
+    }
+    if (this.type === 9) {
+      image(dragonAnimation[frameCount % dragonAnimation.length], this.x, this.y);
+    }
   }
 
-  midEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+  enemyElement() {
+    if (this.element === "null") {
+      //
+    }
+    if (this.element === "fire") {
+      //
+    }
+    if (this.element === "ice") {
+      //
+    }
+    if (this.element === "poison") {
+      //
+    }
+    if (this.element === "magicDrain") {
+      //
+    }
   }
 
-  hardEnemy() {
-    image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+  smallEnemyMove() {
+    let choice = random(100);
+    if (choice < 50) {
+      this.x -= this.moveSpeed;
+    }
+    else if (choice < 100) {
+      this.x += this.moveSpeed;
+    }
   }
 
-  enemyMove() {
+  bigEnemyMove() {
     let choice = random(100);
     if (choice < 50) {
       this.x -= this.moveSpeed;
@@ -41,7 +92,8 @@ class Enemy {
 
 let badGuys = [];
 
-let moveX, moveY;
+let moveX = 720;
+let moveY = 660;
 let canMoveUP = true;
 let canMoveRIGHT = true;
 let canMoveLEFT = true;
@@ -58,10 +110,30 @@ let guardAnimation = [];
 let guardRightAnimation = [];
 let guardWalkAnimation = [];
 let guardRightWalkAnimation = [];
+
 let gremAnimation = [];
+let bigGremAnimation = [];
+let evilGuardAnimation = [];
+let bigEvilGuardAnimation = [];
+let fireBigAnimation = [];
+let slimeAnimation = [];
+let magicMageAnimation = [];
+let attackBargeletAnimation = [];
+let theSnakesAnimation = [];
+let dragonAnimation = [];
 
 let guardIdleImage, guardRightIdleImage,guardFrontIdleImage, guardBackIdleImage, guardWalkImage, guardRightWalkImage;
+
 let gremIdleImage;
+let bigGremIdleImage;
+let evilGuardIdleImage;
+let bigEvilGuardIdleImage;
+let fireBigIdleImage;
+let slimeIdleImage;
+let magicMageIdleImage;
+let attackBargeIdleImage;
+let theSnakesIdleImage;
+let dragonIdleImage;
 
 let guardstill = true;
 let isUp = true;
@@ -71,8 +143,11 @@ let moveSpeed = 4.4;
 let level = 0;
 let levelSet = [];
 
-let isChanged = false;
-let wait = 0;
+let newplacment = false;
+let defeated = true;
+
+let forward = false;
+
 
 let tiles;
 let tilesHigh, tilesWide;
@@ -161,8 +236,6 @@ function preload() {
 
 function setup() {
   createCanvas(1440, 840);
-  moveX = width/2;
-  moveY = height/2;
   levelLoader();
   animationSpilce();
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -189,9 +262,7 @@ function draw() {
   theplayer();
   change();
   icons();
-  wallBlocks();
-  
-  // console.log(wait);
+  wallBlock();
 }
 
 function theplayer() {
@@ -241,50 +312,23 @@ function theplayer() {
   else {
     guardstill = true;
   }
-
-  //find way to check for a derection other than UP
-  for (let y = 0; y < tilesHigh; y++) {
-    for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && moveY < height - 120){
-        canMoveUP = false;
-      }
-      else {
-        canMoveUP = true;
-      }
-
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
-        canMoveDOWN = false;
-      }
-      else {
-        canMoveDOWN = true;
-      }
-      
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX < width - 120]){
-        canMoveRIGHT = false;
-      }
-      else {
-        canMoveRIGHT = true;
-      }
-
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX > 120]){
-        canMoveLEFT = false;
-      }
-      else {
-        canMoveLEFT = true;
-      }
-    }
-  }
 }
 
-// Make an array that holds if a wall is in that location
-// make that it knows what derection the play is coming for and trun off the proper key
-// look at vectors shelenburg
-function wallBlocks() {
+
+function wallBlock() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B") {
-        fill(255,0,0);
-        rect(x*60,y*60,60,60);
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)) {
+        moveY += 60;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)) {
+        moveY -= 60;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)) {
+        moveX += 60;
+      }
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)) {
+        moveX -= 60;
       }
     }
   }
@@ -293,100 +337,218 @@ function wallBlocks() {
 function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (isChanged === false) {
-        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
+      if (defeated === true) {
+        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(LEFT_ARROW))){
           level++;
           levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = true;
+          startingplace();
         }
-        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)){
+        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(RIGHT_ARROW))){
           level++;
           levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = true;
+          startingplace();
         }
-        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
+        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level++;
           levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = true;
+          startingplace();
         }
-        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)){
+        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level++;
           levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = true;
+          startingplace();
         }
         if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
           level--;
           levelLoader();
-          isChanged = true;
-        }
-        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
-          level--;
-          levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = false;
+          startingplace();
         }
         if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
           level--;
           levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = false;
+          startingplace();
         }
-        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(DOWN_ARROW))){
           level--;
           levelLoader();
-          isChanged = true;
+          newplacment = true;
+          forward = false;
+          startingplace();
         }
-      }
-      else {
-        if (wait === 100) {
-          isChanged = false;
-          wait = 0;
-        }
-        else {
-          wait++;
+        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(DOWN_ARROW))){
+          level--;
+          levelLoader();
+          newplacment = true;
+          forward = false;
+          startingplace();
         }
       }
     }
   }
 }
 
+function startingplace() {
+  if (newplacment === true) {
+    if (forward) {
+      if (level === 1) {
+        moveX = 240;
+      }
+      if (level === 2) {
+        moveX = 240;
+      }
+      if (level === 3) {
+        moveY = 660;
+      }
+      if (level === 4) {
+        moveY = 660;
+      }
+      if (level === 5) {
+        moveY = 660;
+      }
+      if (level === 6) {
+        moveX = 1260;
+      }
+      if (level === 7) {
+        moveY = 660;
+      }
+      if (level === 8) {
+        moveY = 660;
+      }
+    }
+    if (!forward) {
+      if (level === 0) {
+        moveX = 1020;
+      }
+      if (level === 1) {
+        moveX = 1140;
+      }
+      if (level === 2) {
+        moveY = 120;
+      }
+      if (level === 3) {
+        moveY = 120;
+      }
+      if (level === 4) {
+        moveY = 120;
+      }
+      if (level === 5) {
+        moveX = 120;
+      }
+      if (level === 6) {
+        moveY = 120;
+      }
+    }
+    newplacment = false;
+  }
+}
+
+// base done add code
 function allEnemy() {
-  if (level === 0 || level === 1 || level === 2) {
-    let easy = new Enemy();
-    badGuys.push(easy);
-    badGuys.easyEnemy();
-    for (let i = badGuys.length - 1; i >= 0; i--) {
-      badGuys[i].easyEnemy();
-      badGuys[i].enemyMove();
-  
-      if (badGuys[i].isDead()) {
-        badGuys.splice(i, 1);
-      }
-    }
+  if (level === 1) {
+    let enemy1 = new Enemy(100, 100, 0,"null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+
   }
-  else if (level === 3 || level === 4 || level === 5) {
-    let easy = new Enemy();
-    badGuys.push(easy);
-    badGuys.midEnemy();
-    for (let i = badGuys.length - 1; i >= 0; i--) {
-      badGuys[i].midEnemy();
-      badGuys[i].enemyMove();
-  
-      if (badGuys[i].isDead()) {
-        badGuys.splice(i, 1);
-      }
-    }
+  if (level === 2) {
+    let enemy1 = new Enemy(100, 100, 1, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+    let enemy2 = new Enemy(100, 100, 1, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.smallEnemyMove();
+    let enemy3 = new Enemy(100, 100, 2, "null");
+    enemy3.typesEnemy();
+    enemy3.enemyElement();
+    enemy3.bigEnemyMove();
   }
-  else if (level === 6 || level === 7 || level === 8) {
-    let easy = new Enemy();
-    badGuys.push(easy);
-    badGuys.hardEnemy();
-    for (let i = badGuys.length - 1; i >= 0; i--) {
-      badGuys[i].hardEnemy();
-      badGuys[i].enemyMove();
-  
-      if (badGuys[i].isDead()) {
-        badGuys.splice(i, 1);
-      }
-    }
+  if (level === 3) {
+    let enemy1 = new Enemy(100, 100, 3, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+  }
+  if (level === 4) {
+    let enemy1 = new Enemy(100, 100, 4, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+
+    let enemy2 = new Enemy(100, 100, 5, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.bigEnemyMove();
+  }
+  if (level === 5) {
+    let enemy1 = new Enemy(100, 100, 6, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.bigEnemyMove();
+  }
+  if (level === 6) {
+    let enemy1 = new Enemy(100, 100, 7, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.smallEnemyMove();
+    let enemy2 = new Enemy(100, 100, 7, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.smallEnemyMove();
+    let enemy3 = new Enemy(100, 100, 7, "null");
+    enemy3.typesEnemy();
+    enemy3.enemyElement();
+    enemy3.smallEnemyMove();
+    let enemy4 = new Enemy(100, 100, 7, "null");
+    enemy4.typesEnemy();
+    enemy4.enemyElement();
+    enemy4.smallEnemyMove();
+  }
+  if (level === 7) {
+    let enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
+    enemy1.typesEnemy();
+    enemy1.enemyElement();
+    enemy1.bigEnemyMove();
+    let enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
+    enemy2.typesEnemy();
+    enemy2.enemyElement();
+    enemy2.bigEnemyMove();
+    let enemy3 = new Enemy(1/3*width, height/2, 8, "null");
+    enemy3.typesEnemy();
+    enemy3.enemyElement();
+    enemy3.bigEnemyMove();
+    let enemy4 = new Enemy(2/3*width, height/2, 8, "null");
+    enemy4.typesEnemy();
+    enemy4.enemyElement();
+    enemy4.bigEnemyMove();
+    let enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
+    enemy5.typesEnemy();
+    enemy5.enemyElement();
+    enemy5.bigEnemyMove();
+    let enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
+    enemy6.typesEnemy();
+    enemy6.enemyElement();
+    enemy6.bigEnemyMove();
+  }
+  if (level === 8) {
+    let boss = new Enemy(width, height/2, 9, "boss");
+    boss.typesEnemy();
+    boss.enemyElement();
+    boss.bigEnemyMove();
   }
 }
 

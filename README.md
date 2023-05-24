@@ -2,7 +2,25 @@
 cs-30 major project spring 2023
 
 
-## Code from other projects to keep in mind
+## project remander 
+    0 = evilGuard
+    1 = gremAnimation
+    2 = bigGremAnimation
+    3 = fireBigAnimation
+    4 = magicMageAnimation
+    5 = attackBargeletAnimation
+    6 = slimeAnimation
+    7 = theSnakesAnimation
+    8 = bigEvilGuardAnimation
+    9 = dragonAnimation
+
+    null = no effect
+    fire = damage over time, faster speed
+    ice = no damage, stuck in place
+    poison = damage over time, slower speed
+
+
+## Code from other projects to keep in mind (credited to Schellenberg)
 ### Walker-OOP
 
     class Walker {
@@ -138,3 +156,37 @@ cs-30 major project spring 2023
             }
         }
     }
+
+## Walls Not Working
+    for (let y = 0; y < tilesHigh; y++) {
+        for (let x = 0; x < tilesWide; x++) {
+            if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && moveY < height - 120){
+                canMoveUP = false;
+            }
+            else {
+                canMoveUP = true;
+            }
+
+            if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveY > 120]){
+                canMoveDOWN = false;
+            }
+            else {
+                canMoveDOWN = true;
+            }
+      
+            if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX < width - 120]){
+                canMoveRIGHT = false;
+            }
+            else {
+                canMoveRIGHT = true;
+            }
+
+            if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60) && moveX > 120]){
+                canMoveLEFT = false;
+            }
+            else {
+                canMoveLEFT = true;
+            }
+        }
+    }
+
