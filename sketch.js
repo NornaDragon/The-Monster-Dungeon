@@ -106,6 +106,8 @@ let statusEffect = 0;
 let health = 174;
 let magic = 1;
 
+let beenSet = false;
+
 let Assets24fps_60x60;
 let guardAnimation = [];
 let guardRightAnimation = [];
@@ -150,7 +152,6 @@ let newplacment = false;
 let defeated = true;
 
 let forward = false;
-
 
 let tiles;
 let tilesHigh, tilesWide;
@@ -268,6 +269,7 @@ function draw() {
   change();
   icons();
   wallBlock();
+  allEnemy();
   roomEnemy();
 }
 
@@ -460,117 +462,83 @@ function startingplace() {
 }
 
 function roomEnemy() {
-  if (level === 1) {
-    enemy1.typesEnemy();
-    // enemy1.enemyElement();
-    // enemy1.smallEnemyMove();
-  }
-  if (level === 2) {
-    enemy1.typesEnemy();
-    // enemy1.enemyElement();
-    // enemy1.smallEnemyMove();
-    enemy2.typesEnemy();
-    // enemy2.enemyElement();
-    // enemy2.smallEnemyMove();
-    // enemy3.typesEnemy();
-    // enemy3.enemyElement();
-    // enemy3.bigEnemyMove();
-  }
-  if (level === 3) {
-    enemy1.typesEnemy();
-    enemy1.enemyElement();
-    enemy1.smallEnemyMove();
-  }
-  if (level === 4) {
-    enemy1.typesEnemy();
-    enemy1.enemyElement();
-    enemy1.smallEnemyMove();
-
-    enemy2.typesEnemy();
-    enemy2.enemyElement();
-    enemy2.bigEnemyMove();
-  }
-  if (level === 5) {
-    enemy1.typesEnemy();
-    enemy1.enemyElement();
-    enemy1.bigEnemyMove();
-  }
-  if (level === 6) {
-    enemy1.typesEnemy();
-    enemy1.enemyElement();
-    enemy1.smallEnemyMove();
-    enemy2.typesEnemy();
-    enemy2.enemyElement();
-    enemy2.smallEnemyMove();
-    enemy3.typesEnemy();
-    enemy3.enemyElement();
-    enemy3.smallEnemyMove();
-    enemy4.typesEnemy();
-    enemy4.enemyElement();
-    enemy4.smallEnemyMove();
-  }
-  if (level === 7) {
-    enemy1.typesEnemy();
-    enemy1.enemyElement();
-    enemy1.bigEnemyMove();
-    enemy2.typesEnemy();
-    enemy2.enemyElement();
-    enemy2.bigEnemyMove();
-    enemy3.typesEnemy();
-    enemy3.enemyElement();
-    enemy3.bigEnemyMove();
-    enemy4.typesEnemy();
-    enemy4.enemyElement();
-    enemy4.bigEnemyMove();
-    enemy5.typesEnemy();
-    enemy5.enemyElement();
-    enemy5.bigEnemyMove();
-    enemy6.typesEnemy();
-    enemy6.enemyElement();
-    enemy6.bigEnemyMove();
-  }
-  if (level === 8) {
-    boss.typesEnemy();
-    boss.enemyElement();
-    boss.bigEnemyMove();
+  if (newplacment === true) {
+    if (level === 1) {
+      enemy1.typesEnemy();
+    }
+    if (level === 2) {
+      enemy1.typesEnemy();
+      enemy2.typesEnemy();
+    }
+    if (level === 3) {
+      enemy1.typesEnemy();
+    }
+    if (level === 4) {
+      enemy1.typesEnemy();
+      enemy2.typesEnemy();
+    }
+    if (level === 5) {
+      enemy1.typesEnemy();
+    }
+    if (level === 6) {
+      enemy1.typesEnemy();
+      enemy2.typesEnemy();
+      enemy3.typesEnemy();
+      enemy4.typesEnemy();
+    }
+    if (level === 7) {
+      enemy1.typesEnemy();
+      enemy2.typesEnemy();
+      enemy3.typesEnemy();
+      enemy4.typesEnemy();
+      enemy5.typesEnemy();
+      enemy6.typesEnemy();
+    }
+    if (level === 8) {
+      boss.typesEnemy();
+    }
+    newplacment = false;
   }
 }
 
 // base done add code
 function allEnemy() {
-  if (level === 1) {
-    enemy1 = new Enemy(100, 100, 0,"null");
-  }
-  if (level === 2) {
-    enemy1 = new Enemy(100, 100, 1, "null");
-    enemy2 = new Enemy(100, 100, 1, "null");
-  }
-  if (level === 3) {
-    enemy1 = new Enemy(100, 100, 3, "null");
-  }
-  if (level === 4) {
-    enemy1 = new Enemy(100, 100, 4, "null");
-    enemy2 = new Enemy(100, 100, 5, "null");
-  }
-  if (level === 5) {
-    enemy1 = new Enemy(100, 100, 6, "null");
-  }
-  if (level === 6) {
-    enemy1 = new Enemy(100, 100, 7, "null");
-    enemy2 = new Enemy(100, 100, 7, "null");
-    enemy3 = new Enemy(100, 100, 7, "null");
-    enemy4 = new Enemy(100, 100, 7, "null");
-  }
-  if (level === 7) {
-    let enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
-    let enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
-    let enemy3 = new Enemy(1/3*width, height/2, 8, "null");
-    let enemy4 = new Enemy(2/3*width, height/2, 8, "null");
-    let enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
-    let enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
-  }
-  if (level === 8) {
-    let boss = new Enemy(width, height/2, 9, "boss");
+  if (newplacment === true) {
+    if (level === 1) {
+      enemy1 = new Enemy(100, 100, 0,"null");
+    }
+    if (level === 2) {
+      enemy1 = new Enemy(100, 100, 1, "null");
+      enemy2 = new Enemy(100, 100, 1, "null");
+    }
+    if (level === 3) {
+      enemy1 = new Enemy(100, 100, 3, "null");
+    }
+    if (level === 4) {
+      enemy1 = new Enemy(100, 100, 4, "null");
+      enemy2 = new Enemy(100, 100, 5, "null");
+    }
+    if (level === 5) {
+      enemy1 = new Enemy(100, 100, 6, "null");
+    }
+    if (level === 6) {
+      enemy1 = new Enemy(100, 100, 7, "null");
+      enemy2 = new Enemy(100, 100, 7, "null");
+      enemy3 = new Enemy(100, 100, 7, "null");
+      enemy4 = new Enemy(100, 100, 7, "null");
+    }
+    if (level === 7) {
+      let enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
+      let enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
+      let enemy3 = new Enemy(1/3*width, height/2, 8, "null");
+      let enemy4 = new Enemy(2/3*width, height/2, 8, "null");
+      let enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
+      let enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
+    }
+    if (level === 8) {
+      let boss = new Enemy(width, height/2, 9, "boss");
+    }
+    newplacment = false;
   }
 }
 
