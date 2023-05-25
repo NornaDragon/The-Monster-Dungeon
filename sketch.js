@@ -269,8 +269,8 @@ function draw() {
   change();
   icons();
   wallBlock();
-  allEnemy();
-  roomEnemy();
+  // allEnemy();
+  // roomEnemy();
 }
 
 function theplayer() {
@@ -325,17 +325,17 @@ function theplayer() {
 function wallBlock() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(UP_ARROW)) {
-        moveY += 60;
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(UP_ARROW)) {
+        moveY += 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(DOWN_ARROW)) {
-        moveY -= 60;
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW)) {
+        moveY -= 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)) {
-        moveX += 60;
+      else if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(LEFT_ARROW)) {
+        moveX += 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)) {
-        moveX -= 60;
+      else if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor((moveX+60)/60)] && keyIsDown(RIGHT_ARROW)) {
+        moveX -= 0.5;
       }
     }
   }
@@ -501,7 +501,6 @@ function roomEnemy() {
   }
 }
 
-// base done add code
 function allEnemy() {
   if (newplacment === true) {
     if (level === 1) {
@@ -528,15 +527,15 @@ function allEnemy() {
       enemy4 = new Enemy(100, 100, 7, "null");
     }
     if (level === 7) {
-      let enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
-      let enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
-      let enemy3 = new Enemy(1/3*width, height/2, 8, "null");
-      let enemy4 = new Enemy(2/3*width, height/2, 8, "null");
-      let enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
-      let enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
+      enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
+      enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
+      enemy3 = new Enemy(1/3*width, height/2, 8, "null");
+      enemy4 = new Enemy(2/3*width, height/2, 8, "null");
+      enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
+      enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
     }
     if (level === 8) {
-      let boss = new Enemy(width, height/2, 9, "boss");
+      boss = new Enemy(width, height/2, 9, "boss");
     }
     newplacment = false;
   }
