@@ -153,6 +153,8 @@ let defeated = true;
 
 let forward = false;
 
+let wait = 0;
+
 let tiles;
 let tilesHigh, tilesWide;
 let tileWidth, tileHeight;
@@ -291,27 +293,27 @@ function theplayer() {
     }
   }
 
-  if (keyIsDown(RIGHT_ARROW) && canMoveRIGHT === true) {
+  if (keyIsDown(RIGHT_ARROW)) {
     isRight = true;
     if (moveX < width-54) {
       moveX += moveSpeed;
     }
     guardstill = false;
   }
-  else if (keyIsDown(LEFT_ARROW) && canMoveLEFT === true) {
+  else if (keyIsDown(LEFT_ARROW)) {
     isRight = false;
     if (moveX > -6) {
       moveX -= moveSpeed;
     }
     guardstill = false;
   }
-  else if (keyIsDown(UP_ARROW) && canMoveUP === true) {
+  else if (keyIsDown(UP_ARROW)) {
     if (moveY > - 2) {
       moveY -= moveSpeed;
     }
     guardstill = false;
   }
-  else if (keyIsDown(DOWN_ARROW) && canMoveDOWN === true) {
+  else if (keyIsDown(DOWN_ARROW)) {
     if (moveY < height-60) {
       moveY += moveSpeed;
     }

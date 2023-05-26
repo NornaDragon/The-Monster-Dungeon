@@ -3,6 +3,10 @@
 ## Description
 
 A dungeon crawler with enemies and helpful allies. 
+
+Done 3/7
+Working on 2/7
+Not started 2/7
 # 
 ## Needs to Have
 # 
@@ -10,23 +14,23 @@ A dungeon crawler with enemies and helpful allies.
 
 - Room change through doors (Complete)
 
-- layout change
+- layout change (Complete)
 
-- Music and sound effects
+- Music and sound effects (not started)
 
-- Companion AI
+- Companion AI (not started)
 
     - Helps the player
 
     - Gives helpful status effects
 
-- Enemy AI
+- Enemy AI (good start on it)
 
     - Random movement when no player is in the line of sight
     
     - When a player is spotted go toward them
 
-- Battle system
+- Battle system (icons done)
 
     - Different types of damage
 
@@ -37,7 +41,7 @@ A dungeon crawler with enemies and helpful allies.
 
         - Magic using Magic Points (MP)
 
-    - (HP)Health and (MP)Magic Bar (player and enemy)
+    - (HP)Health and (MP)Magic Bar (player and enemy) (Complete)
 
     - Visual display
 
