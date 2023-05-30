@@ -271,8 +271,8 @@ function draw() {
   change();
   icons();
   wallBlock();
-  // allEnemy();
-  // roomEnemy();
+  allEnemy();
+  roomEnemy();
 }
 
 function theplayer() {
@@ -333,10 +333,10 @@ function wallBlock() {
       if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW)) {
         moveY -= 0.5;
       }
-      else if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(LEFT_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(LEFT_ARROW)) {
         moveX += 0.5;
       }
-      else if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor((moveX+60)/60)] && keyIsDown(RIGHT_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor((moveX+60)/60)] && keyIsDown(RIGHT_ARROW)) {
         moveX -= 0.5;
       }
     }
@@ -464,42 +464,39 @@ function startingplace() {
 }
 
 function roomEnemy() {
-  if (newplacment === true) {
-    if (level === 1) {
-      enemy1.typesEnemy();
-    }
-    if (level === 2) {
-      enemy1.typesEnemy();
-      enemy2.typesEnemy();
-    }
-    if (level === 3) {
-      enemy1.typesEnemy();
-    }
-    if (level === 4) {
-      enemy1.typesEnemy();
-      enemy2.typesEnemy();
-    }
-    if (level === 5) {
-      enemy1.typesEnemy();
-    }
-    if (level === 6) {
-      enemy1.typesEnemy();
-      enemy2.typesEnemy();
-      enemy3.typesEnemy();
-      enemy4.typesEnemy();
-    }
-    if (level === 7) {
-      enemy1.typesEnemy();
-      enemy2.typesEnemy();
-      enemy3.typesEnemy();
-      enemy4.typesEnemy();
-      enemy5.typesEnemy();
-      enemy6.typesEnemy();
-    }
-    if (level === 8) {
-      boss.typesEnemy();
-    }
-    newplacment = false;
+  if (level === 1) {
+    enemy1.typesEnemy();
+  }
+  if (level === 2) {
+    enemy1.typesEnemy();
+    enemy2.typesEnemy();
+  }
+  if (level === 3) {
+    enemy1.typesEnemy();
+  }
+  if (level === 4) {
+    enemy1.typesEnemy();
+    enemy2.typesEnemy();
+  }
+  if (level === 5) {
+    enemy1.typesEnemy();
+  }
+  if (level === 6) {
+    enemy1.typesEnemy();
+    enemy2.typesEnemy();
+    enemy3.typesEnemy();
+    enemy4.typesEnemy();
+  }
+  if (level === 7) {
+    enemy1.typesEnemy();
+    enemy2.typesEnemy();
+    enemy3.typesEnemy();
+    enemy4.typesEnemy();
+    enemy5.typesEnemy();
+    enemy6.typesEnemy();
+  }
+  if (level === 8) {
+    boss.typesEnemy();
   }
 }
 
