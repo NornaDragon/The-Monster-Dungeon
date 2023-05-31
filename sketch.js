@@ -271,7 +271,6 @@ function draw() {
   change();
   icons();
   wallBlock();
-  allEnemy();
   roomEnemy();
 }
 
@@ -410,6 +409,41 @@ function change() {
 
 function startingplace() {
   if (newplacment === true) {
+    if (level === 1) {
+      enemy1 = new Enemy(100, 100, 0,"null");
+    }
+    if (level === 2) {
+      enemy1 = new Enemy(100, 100, 1, "null");
+      enemy2 = new Enemy(100, 100, 1, "null");
+    }
+    if (level === 3) {
+      enemy1 = new Enemy(100, 100, 3, "null");
+    }
+    if (level === 4) {
+      enemy1 = new Enemy(100, 100, 4, "null");
+      enemy2 = new Enemy(100, 100, 5, "null");
+    }
+    if (level === 5) {
+      enemy1 = new Enemy(100, 100, 6, "null");
+    }
+    if (level === 6) {
+      enemy1 = new Enemy(100, 100, 7, "null");
+      enemy2 = new Enemy(100, 100, 7, "null");
+      enemy3 = new Enemy(100, 100, 7, "null");
+      enemy4 = new Enemy(100, 100, 7, "null");
+    }
+    if (level === 7) {
+      enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
+      enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
+      enemy3 = new Enemy(1/3*width, height/2, 8, "null");
+      enemy4 = new Enemy(2/3*width, height/2, 8, "null");
+      enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
+      enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
+    }
+    if (level === 8) {
+      boss = new Enemy(width, height/2, 9, "boss");
+    }
+
     if (forward) {
       if (level === 1) {
         moveX = 240;
@@ -501,42 +535,39 @@ function roomEnemy() {
 }
 
 function allEnemy() {
-  if (newplacment === true) {
-    if (level === 1) {
-      enemy1 = new Enemy(100, 100, 0,"null");
-    }
-    if (level === 2) {
-      enemy1 = new Enemy(100, 100, 1, "null");
-      enemy2 = new Enemy(100, 100, 1, "null");
-    }
-    if (level === 3) {
-      enemy1 = new Enemy(100, 100, 3, "null");
-    }
-    if (level === 4) {
-      enemy1 = new Enemy(100, 100, 4, "null");
-      enemy2 = new Enemy(100, 100, 5, "null");
-    }
-    if (level === 5) {
-      enemy1 = new Enemy(100, 100, 6, "null");
-    }
-    if (level === 6) {
-      enemy1 = new Enemy(100, 100, 7, "null");
-      enemy2 = new Enemy(100, 100, 7, "null");
-      enemy3 = new Enemy(100, 100, 7, "null");
-      enemy4 = new Enemy(100, 100, 7, "null");
-    }
-    if (level === 7) {
-      enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
-      enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
-      enemy3 = new Enemy(1/3*width, height/2, 8, "null");
-      enemy4 = new Enemy(2/3*width, height/2, 8, "null");
-      enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
-      enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
-    }
-    if (level === 8) {
-      boss = new Enemy(width, height/2, 9, "boss");
-    }
-    newplacment = false;
+  if (level === 1) {
+    enemy1 = new Enemy(100, 100, 0,"null");
+  }
+  if (level === 2) {
+    enemy1 = new Enemy(100, 100, 1, "null");
+    enemy2 = new Enemy(100, 100, 1, "null");
+  }
+  if (level === 3) {
+    enemy1 = new Enemy(100, 100, 3, "null");
+  }
+  if (level === 4) {
+    enemy1 = new Enemy(100, 100, 4, "null");
+    enemy2 = new Enemy(100, 100, 5, "null");
+  }
+  if (level === 5) {
+    enemy1 = new Enemy(100, 100, 6, "null");
+  }
+  if (level === 6) {
+    enemy1 = new Enemy(100, 100, 7, "null");
+    enemy2 = new Enemy(100, 100, 7, "null");
+    enemy3 = new Enemy(100, 100, 7, "null");
+    enemy4 = new Enemy(100, 100, 7, "null");
+  }
+  if (level === 7) {
+    enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
+    enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
+    enemy3 = new Enemy(1/3*width, height/2, 8, "null");
+    enemy4 = new Enemy(2/3*width, height/2, 8, "null");
+    enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
+    enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
+  }
+  if (level === 8) {
+    boss = new Enemy(width, height/2, 9, "boss");
   }
 }
 
