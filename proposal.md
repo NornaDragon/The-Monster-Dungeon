@@ -26,7 +26,7 @@ Not started 2/7
 
 - Enemy AI (good start on it)
 
-    - Random movement when no player is in the line of sight
+    - Random movement when no player is in the line of sight (Done)
     
     - When a player is spotted go toward them
 

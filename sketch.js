@@ -21,6 +21,8 @@ class Enemy {
   typesEnemy() {
     animationSpilce();
     if (this.type === 0) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+
       // image(evilGuardAnimation[frameCount % evilGuardAnimation.length], this.x, this.y);
     }
     if (this.type === 1) {
@@ -72,21 +74,27 @@ class Enemy {
 
   smallEnemyMove() {
     let choice = random(100);
-    if (choice < 50) {
+    if (choice < 25) {
       this.x -= this.moveSpeed;
     }
-    else if (choice < 100) {
+    if (choice < 50) {
       this.x += this.moveSpeed;
+    }
+    if (choice < 75) {
+      this.y -= this.moveSpeed;
+    }
+    if (choice < 100) {
+      this.y += this.moveSpeed;
     }
   }
 
   bigEnemyMove() {
     let choice = random(100);
     if (choice < 50) {
-      this.x -= this.moveSpeed;
+      this.x -= this.moveSpeed/2;
     }
     else if (choice < 100) {
-      this.x += this.moveSpeed;
+      this.x += this.moveSpeed/2;
     }
   }
 }
@@ -95,10 +103,6 @@ let badGuys = [];
 
 let moveX = 720;
 let moveY = 660;
-let canMoveUP = true;
-let canMoveRIGHT = true;
-let canMoveLEFT = true;
-let canMoveDOWN = true;
 
 let nullhead, firehead, poisonhead, healthhead, magichead, hurthead;
 let fullhealthbar, lowhealthbar, fullmagicbar, lowmagicbar;
@@ -138,6 +142,7 @@ let attackBargeIdleImage;
 let theSnakesIdleImage;
 let dragonIdleImage;
 
+let enemyArray = [];
 let enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, boss;
 
 let guardstill = true;
@@ -153,8 +158,6 @@ let defeated = true;
 
 let forward = false;
 
-let wait = 0;
-
 let tiles;
 let tilesHigh, tilesWide;
 let tileWidth, tileHeight;
@@ -164,7 +167,6 @@ let levelBackground;
 let brick, dirt, empty, owen;
 let blackPathwayTopLeft, blackPathwayTopRight, blackPathwayBottomLeft, blackPathwayBottomRight;
 let pathwayTopLeft, pathwayTopRight, pathwayBottomLeft, pathwayBottomRight;
-let map0, map1, map2, map3, map4, map5, map6, map7, map8;
 
 // FOR IMAGE AND LEVEL ASSETS
 function preload() {
@@ -195,16 +197,6 @@ function preload() {
   lowhealthbar = loadImage("assets/image_and_animation/baricon/healthlow.png");
   fullmagicbar = loadImage("assets/image_and_animation/baricon/magicfull.png");
   lowmagicbar = loadImage("assets/image_and_animation/baricon/magiclow.png");
-  // Map
-  map0 = loadImage("assets/image_and_animation/map/map0.png");
-  map1 = loadImage("assets/image_and_animation/map/map1.png");
-  map2 = loadImage("assets/image_and_animation/map/map2.png");
-  map3 = loadImage("assets/image_and_animation/map/map3.png");
-  map4 = loadImage("assets/image_and_animation/map/map4.png");
-  map5 = loadImage("assets/image_and_animation/map/map5.png");
-  map6 = loadImage("assets/image_and_animation/map/map6.png");
-  map7 = loadImage("assets/image_and_animation/map/map7.png");
-  map8 = loadImage("assets/image_and_animation/map/map8.png");
 
   // Scenery tiles
   brick = loadImage("assets/image_and_animation/scenery/brick.png");
@@ -409,43 +401,10 @@ function change() {
 
 function startingplace() {
   if (newplacment === true) {
-    if (level === 1) {
-      enemy1 = new Enemy(100, 100, 0,"null");
-    }
-    if (level === 2) {
-      enemy1 = new Enemy(100, 100, 1, "null");
-      enemy2 = new Enemy(100, 100, 1, "null");
-    }
-    if (level === 3) {
-      enemy1 = new Enemy(100, 100, 3, "null");
-    }
-    if (level === 4) {
-      enemy1 = new Enemy(100, 100, 4, "null");
-      enemy2 = new Enemy(100, 100, 5, "null");
-    }
-    if (level === 5) {
-      enemy1 = new Enemy(100, 100, 6, "null");
-    }
-    if (level === 6) {
-      enemy1 = new Enemy(100, 100, 7, "null");
-      enemy2 = new Enemy(100, 100, 7, "null");
-      enemy3 = new Enemy(100, 100, 7, "null");
-      enemy4 = new Enemy(100, 100, 7, "null");
-    }
-    if (level === 7) {
-      enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
-      enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
-      enemy3 = new Enemy(1/3*width, height/2, 8, "null");
-      enemy4 = new Enemy(2/3*width, height/2, 8, "null");
-      enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
-      enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
-    }
-    if (level === 8) {
-      boss = new Enemy(width, height/2, 9, "boss");
-    }
-
     if (forward) {
       if (level === 1) {
+        enemy1 = new Enemy(width/2, height/2, 0,"null");
+        enemyArray.push(enemy1);
         moveX = 240;
       }
       if (level === 2) {
@@ -498,49 +457,63 @@ function startingplace() {
 }
 
 function roomEnemy() {
+  if (level === 0) {
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray.splice(i,1);
+    } 
+  }
   if (level === 1) {
-    enemy1.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].smallEnemyMove();
+      enemyArray[i].typesEnemy();
+    }
   }
   if (level === 2) {
-    enemy1.typesEnemy();
-    enemy2.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray.splice(i,1);
+    } 
+    // enemy1.typesEnemy();
+    // enemy2.typesEnemy();
   }
   if (level === 3) {
-    enemy1.typesEnemy();
+    // enemy1.typesEnemy();
   }
   if (level === 4) {
-    enemy1.typesEnemy();
-    enemy2.typesEnemy();
+    // enemy1.typesEnemy();
+    // enemy2.typesEnemy();
   }
   if (level === 5) {
-    enemy1.typesEnemy();
+    // enemy1.typesEnemy();
   }
   if (level === 6) {
-    enemy1.typesEnemy();
-    enemy2.typesEnemy();
-    enemy3.typesEnemy();
-    enemy4.typesEnemy();
+  //   enemy1.typesEnemy();
+  //   enemy2.typesEnemy();
+  //   enemy3.typesEnemy();
+  //   enemy4.typesEnemy();
   }
   if (level === 7) {
-    enemy1.typesEnemy();
-    enemy2.typesEnemy();
-    enemy3.typesEnemy();
-    enemy4.typesEnemy();
-    enemy5.typesEnemy();
-    enemy6.typesEnemy();
+    // enemy1.typesEnemy();
+    // enemy2.typesEnemy();
+    // enemy3.typesEnemy();
+    // enemy4.typesEnemy();
+    // enemy5.typesEnemy();
+    // enemy6.typesEnemy();
   }
   if (level === 8) {
-    boss.typesEnemy();
+    // boss.typesEnemy();
   }
 }
 
 function allEnemy() {
   if (level === 1) {
     enemy1 = new Enemy(100, 100, 0,"null");
+    enemyArray.push(enemy1);
   }
   if (level === 2) {
     enemy1 = new Enemy(100, 100, 1, "null");
+    enemyArray.push(enemy1);
     enemy2 = new Enemy(100, 100, 1, "null");
+    enemyArray.push(enemy2);
   }
   if (level === 3) {
     enemy1 = new Enemy(100, 100, 3, "null");
@@ -775,33 +748,6 @@ function showTile(location, x, y) {
   }
   else if (location === "O") {
     image(owen, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "0") {
-    image(map0, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "1") {
-    image(map1, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "2") {
-    image(map2, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "3") {
-    image(map3, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "4") {
-    image(map4, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "5") {
-    image(map5, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "6") {
-    image(map6, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "7") {
-    image(map7, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-  }
-  else if (location === "8") {
-    image(map8, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
   }
   else {
     image(empty, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
