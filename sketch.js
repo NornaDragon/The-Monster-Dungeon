@@ -62,13 +62,15 @@ class Enemy {
       //
     }
     if (this.element === "ice") {
-      //
+      // duration = random(5, 25)
+      // this.speed = 0
+      // framerate%60 (duration --)
     }
     if (this.element === "poison") {
-      //
+      // health -= random(0, 5)
     }
     if (this.element === "magicDrain") {
-      //
+      // mp -= 2
     }
   }
 
