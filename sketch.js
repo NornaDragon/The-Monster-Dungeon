@@ -19,7 +19,7 @@ class Enemy {
   }
 
   typesEnemy() {
-    animationSpilce();
+    // animationSpilce();
     if (this.type === 0) {
       image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
 
@@ -54,25 +54,48 @@ class Enemy {
     }
   }
 
-  enemyElement() {
-    if (this.element === "null") {
-      //
-    }
-    if (this.element === "fire") {
-      //
-    }
-    if (this.element === "ice") {
-      // duration = random(5, 25)
-      // this.speed = 0
-      // framerate%60 (duration --)
-    }
-    if (this.element === "poison") {
-      // health -= random(0, 5)
-    }
-    if (this.element === "magicDrain") {
-      // mp -= 2
-    }
-  }
+  // // enemyElement() {
+  //   if (this.element === "null") { 
+  //     // melee attack
+  //     // = true
+  //   }
+  //   if (this.element === "fire") {
+  //     // fire attack
+
+
+
+  //     // fire effect
+  //     // = true
+  //   }
+  //   if (this.element === "ice") {
+  //     // ice attack
+
+
+
+  //     // ice effect
+  //     // = true
+  //     // duration = random(5, 25)
+  //     // this.speed = 0
+  //     // framerate%60 (duration --)
+  //   }
+  //   if (this.element === "poison") {
+  //     // poison attack
+
+
+  //     // poison effect
+  //     // = true
+  //     // health -= random(0, 5)
+  //   }
+  //   if (this.element === "magicDrain") {
+  //     // magicDrain attack
+
+
+  //     // magicDrain effect
+  //     // = true
+  //     // health -= random(0, 5)
+  //     // mp -= 2
+  //   }
+  // }
 
   smallEnemyMove() {
     let choice = random(100);
@@ -90,15 +113,15 @@ class Enemy {
     }
   }
 
-  bigEnemyMove() {
-    let choice = random(100);
-    if (choice < 50) {
-      this.x -= this.moveSpeed/2;
-    }
-    else if (choice < 100) {
-      this.x += this.moveSpeed/2;
-    }
-  }
+  // // bigEnemyMove() {
+  //   let choice = random(100);
+  //   if (choice < 50) {
+  //     this.x -= this.moveSpeed/2;
+  //   }
+  //   else if (choice < 100) {
+  //     this.x += this.moveSpeed/2;
+  //   }
+  // // }
 }
 
 let badGuys = [];
@@ -336,6 +359,7 @@ function wallBlock() {
   }
 }
 
+// Done for now
 function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
@@ -405,7 +429,8 @@ function startingplace() {
   if (newplacment === true) {
     if (forward) {
       if (level === 1) {
-        enemy1 = new Enemy(width/2, height/2, 0,"null");
+        enemy1 = new Enemy(width/2, height/2, 0);
+        // enemy1 = new Enemy(width/2, height/2, 0,"null");
         enemyArray.push(enemy1);
         moveX = 240;
       }
