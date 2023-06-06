@@ -1,6 +1,6 @@
 // The Monster Dungeon Final
 // Maria C. van der Spuy
-// 27/04/2023
+// 15/06/2023
 //
 // Extra for Experts:
 
@@ -73,50 +73,66 @@ class Enemy {
     }
   }
 
-  // // enemyElement() {
-  //   if (this.element === "null") { 
-  //     // melee attack
-  //     // = true
-  //   }
-  //   if (this.element === "fire") {
-  //     // fire attack
+  enemyElement() {
+    if (this.element === "null") { 
+      // melee attack
+      // = true
+    }
+    if (this.element === "fire") {
+      // fire attack
 
 
 
-  //     // fire effect
-  //     // = true
-  //   }
-  //   if (this.element === "ice") {
-  //     // ice attack
+      // fire effect
+      // = true
+    }
+    if (this.element === "ice") {
+      // ice attack
 
 
 
-  //     // ice effect
-  //     // = true
-  //     // duration = random(5, 25)
-  //     // this.speed = 0
-  //     // framerate%60 (duration --)
-  //   }
-  //   if (this.element === "poison") {
-  //     // poison attack
+      // ice effect
+      // = true
+      // duration = random(5, 25)
+      // this.speed = 0
+      // framerate%60 (duration --)
+    }
+    if (this.element === "poison") {
+      // poison attack
 
 
-  //     // poison effect
-  //     // = true
-  //     // health -= random(0, 5)
-  //   }
-  //   if (this.element === "magicDrain") {
-  //     // magicDrain attack
+      // poison effect
+      // = true
+      // health -= random(0, 5)
+    }
+    if (this.element === "magicDrain") {
+      // magicDrain attack
 
 
-  //     // magicDrain effect
-  //     // = true
-  //     // health -= random(0, 5)
-  //     // mp -= 2
-  //   }
-  // }
+      // magicDrain effect
+      // = true
+      // health -= random(0, 5)
+      // mp -= 2
+    }
+  }
 
   smallEnemyMove() {
+    for (let y = 0; y < tilesHigh; y++) {
+      for (let x = 0; x < tilesWide; x++) {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(UP_ARROW)) {
+          this.y += 0.5;
+        }
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)] && keyIsDown(DOWN_ARROW)) {
+          this.y -= 0.5;
+        }
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(LEFT_ARROW)) {
+          this.x += 0.5;
+        }
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor((this.x+60)/60)] && keyIsDown(RIGHT_ARROW)) {
+          this.x -= 0.5;
+        }
+      }
+    }
     let choice = random(100);
     if (choice < 25) {
       this.x -= this.moveSpeed;
@@ -132,15 +148,15 @@ class Enemy {
     }
   }
 
-  // // bigEnemyMove() {
-  //   let choice = random(100);
-  //   if (choice < 50) {
-  //     this.x -= this.moveSpeed/2;
-  //   }
-  //   else if (choice < 100) {
-  //     this.x += this.moveSpeed/2;
-  //   }
-  // // }
+  bigEnemyMove() {
+    let choice = random(100);
+    if (choice < 50) {
+      this.x -= this.moveSpeed/2;
+    }
+    else if (choice < 100) {
+      this.x += this.moveSpeed/2;
+    }
+  }
 }
 
 let badGuys = [];
@@ -283,7 +299,6 @@ function setup() {
   levelLoader();
   animationSpilce();
   document.addEventListener("contextmenu", event => event.preventDefault());
-  allEnemy();
 
   tilesHigh = lines.length;
   tilesWide = lines[0].length;
@@ -359,6 +374,7 @@ function theplayer() {
   }
 }
 
+// playarea might take it over
 function wallBlock() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
@@ -378,7 +394,13 @@ function wallBlock() {
   }
 }
 
-// Done for now
+function playarea() {
+  // make box that you can run past
+  // box that covers the ground
+  // use sort demo to figure it out 
+}
+
+// Done
 function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
@@ -444,6 +466,7 @@ function change() {
   }
 }
 
+// put new Enemy when down others
 function startingplace() {
   if (newplacment === true) {
     if (forward) {
@@ -502,6 +525,7 @@ function startingplace() {
   }
 }
 
+// change slice to happen when health is 0
 function roomEnemy() {
   if (level === 0) {
     for (let i=0; i<enemyArray.length; i++) {
@@ -547,46 +571,6 @@ function roomEnemy() {
   }
   if (level === 8) {
     // boss.typesEnemy();
-  }
-}
-
-function allEnemy() {
-  if (level === 1) {
-    enemy1 = new Enemy(100, 100, 0,"null");
-    enemyArray.push(enemy1);
-  }
-  if (level === 2) {
-    enemy1 = new Enemy(100, 100, 1, "null");
-    enemyArray.push(enemy1);
-    enemy2 = new Enemy(100, 100, 1, "null");
-    enemyArray.push(enemy2);
-  }
-  if (level === 3) {
-    enemy1 = new Enemy(100, 100, 3, "null");
-  }
-  if (level === 4) {
-    enemy1 = new Enemy(100, 100, 4, "null");
-    enemy2 = new Enemy(100, 100, 5, "null");
-  }
-  if (level === 5) {
-    enemy1 = new Enemy(100, 100, 6, "null");
-  }
-  if (level === 6) {
-    enemy1 = new Enemy(100, 100, 7, "null");
-    enemy2 = new Enemy(100, 100, 7, "null");
-    enemy3 = new Enemy(100, 100, 7, "null");
-    enemy4 = new Enemy(100, 100, 7, "null");
-  }
-  if (level === 7) {
-    enemy1 = new Enemy(1/3*width, 2/4*height, 8, "null");
-    enemy2 = new Enemy(2/3*width, 2/4*height, 8, "null");
-    enemy3 = new Enemy(1/3*width, height/2, 8, "null");
-    enemy4 = new Enemy(2/3*width, height/2, 8, "null");
-    enemy5 = new Enemy(1/3*width, 3/4*height, 8, "null");
-    enemy6 = new Enemy(2/3*width, 3/4*height, 8, "null");
-  }
-  if (level === 8) {
-    boss = new Enemy(width, height/2, 9, "boss");
   }
 }
 
@@ -693,6 +677,7 @@ function icons() {
   // Magic Damage
 }
 
+// Done
 function animationSpilce() {
   let guardFrames = Assets24fps_60x60.frames;
   for (let i = 0; i < guardFrames.length; i++) {
@@ -730,10 +715,12 @@ function animationSpilce() {
   }
 }
 
+// Done
 function levelLoader() {
   lines = levelSet[level];
 }
 
+// Done
 function display() {
   image(levelBackground, 0, 0, width, height);
   for (let y = 0; y < tilesHigh; y++) {
@@ -750,6 +737,7 @@ function display() {
   }
 }
 
+// Done
 function createEmpty2dArray(cols, rows) {
   let emptyGrid = [];
   for (let y = 0; y < rows; y++) {
@@ -761,6 +749,7 @@ function createEmpty2dArray(cols, rows) {
   return emptyGrid;
 }
 
+// Done
 function showTile(location, x, y) {
   if (location === "D") {
     image(dirt, x * tileWidth, y * tileHeight, tileWidth, tileHeight);

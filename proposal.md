@@ -43,7 +43,7 @@ Not started 2/7
 
     - (HP)Health and (MP)Magic Bar (player and enemy) (Complete)
 
-    - Visual display
+    - Visual display (Done)
 
 
 
