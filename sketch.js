@@ -54,6 +54,25 @@ class Enemy {
     }
   }
 
+  walls() {
+    for (let y = 0; y < tilesHigh; y++) {
+      for (let x = 0; x < tilesWide; x++) {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(UP_ARROW)) {
+          this.y += 0.5;
+        }
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)] && keyIsDown(DOWN_ARROW)) {
+          this.y -= 0.5;
+        }
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(LEFT_ARROW)) {
+          this.x += 0.5;
+        }
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor((this.x+60)/60)] && keyIsDown(RIGHT_ARROW)) {
+          this.x -= 0.5;
+        }
+      }
+    }
+  }
+
   // // enemyElement() {
   //   if (this.element === "null") { 
   //     // melee attack
