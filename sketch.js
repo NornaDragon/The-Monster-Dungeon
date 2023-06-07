@@ -53,20 +53,20 @@ class Enemy {
       // image(dragonAnimation[frameCount % dragonAnimation.length], this.x, this.y);
     }
   }
-
+  // Done
   walls() {
     for (let y = 0; y < tilesHigh; y++) {
       for (let x = 0; x < tilesWide; x++) {
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(UP_ARROW)) {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && tiles[y+1][x] === "D") {
           this.y += 0.5;
         }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)] && keyIsDown(DOWN_ARROW)) {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)]  && tiles[y-1][x] === "D") {
           this.y -= 0.5;
         }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(LEFT_ARROW)) {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)]) {
           this.x += 0.5;
         }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor((this.x+60)/60)] && keyIsDown(RIGHT_ARROW)) {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor((this.x+60)/60)]) {
           this.x -= 0.5;
         }
       }
@@ -117,35 +117,20 @@ class Enemy {
   }
 
   smallEnemyMove() {
-    for (let y = 0; y < tilesHigh; y++) {
-      for (let x = 0; x < tilesWide; x++) {
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(UP_ARROW)) {
-          this.y += 0.5;
-        }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)] && keyIsDown(DOWN_ARROW)) {
-          this.y -= 0.5;
-        }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && keyIsDown(LEFT_ARROW)) {
-          this.x += 0.5;
-        }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor((this.x+60)/60)] && keyIsDown(RIGHT_ARROW)) {
-          this.x -= 0.5;
-        }
-      }
-    }
     let choice = random(100);
     if (choice < 25) {
       this.x -= this.moveSpeed;
     }
-    if (choice < 50) {
+    else if (choice < 50) {
       this.x += this.moveSpeed;
     }
-    if (choice < 75) {
+    else if (choice < 75) {
       this.y -= this.moveSpeed;
     }
-    if (choice < 100) {
+    else if (choice < 100) {
       this.y += this.moveSpeed;
     }
+    this.life--;
   }
 
   bigEnemyMove() {
@@ -157,6 +142,10 @@ class Enemy {
       this.x += this.moveSpeed/2;
     }
   }
+
+  isDead() {
+    return this.life <= 0;
+  }
 }
 
 let badGuys = [];
@@ -167,8 +156,8 @@ let moveY = 660;
 let nullhead, firehead, poisonhead, healthhead, magichead, hurthead;
 let fullhealthbar, lowhealthbar, fullmagicbar, lowmagicbar;
 let statusEffect = 0;
-let health = 174;
-let magic = 1;
+let health = 100;
+let magic = 100;
 
 let beenSet = false;
 
@@ -374,14 +363,14 @@ function theplayer() {
   }
 }
 
-// playarea might take it over
+//Done (block under door is funky)
 function wallBlock() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(UP_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(UP_ARROW) && tiles[y+1][x] === "D") {
         moveY += 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW) && tiles[y-1][x] === "D") {
         moveY -= 0.5;
       }
       if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(LEFT_ARROW)) {
@@ -392,12 +381,6 @@ function wallBlock() {
       }
     }
   }
-}
-
-function playarea() {
-  // make box that you can run past
-  // box that covers the ground
-  // use sort demo to figure it out 
 }
 
 // Done
@@ -529,18 +512,23 @@ function startingplace() {
 function roomEnemy() {
   if (level === 0) {
     for (let i=0; i<enemyArray.length; i++) {
-      enemyArray.splice(i,1);
+      //
     } 
   }
   if (level === 1) {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].smallEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
     }
   }
   if (level === 2) {
     for (let i=0; i<enemyArray.length; i++) {
-      enemyArray.splice(i,1);
+      //
     } 
     // enemy1.typesEnemy();
     // enemy2.typesEnemy();
@@ -577,7 +565,7 @@ function roomEnemy() {
 function icons() {
   noStroke();
   fill(0, 0, 0, 150);
-  rect(60, 0, 420, 60);
+  rect(60, 0, 540, 60);
   // head display 
   if (statusEffect === 0) {
     image(nullhead, 60, 0, 60, 60);
@@ -598,39 +586,42 @@ function icons() {
     image(hurthead, 60, 0, 60, 60);
   }
   //health bar display
-  if (health > 174/3) {
+  if (health > 100/3) {
     noStroke();
     fill(34, 177, 76);
-    rect(123, 3, health, 54, 50, 50, 50, 50);
+    rect(120, 3, health*2, 54);
     stroke(0);
     strokeWeight(2);
     fill(34, 177, 76, 50);
-    rect(123, 3, 174, 54, 50);
+    rect(120, 3, 200, 54);
   }
   else {
     noStroke();
     fill(237, 28, 36);
-    rect(123, 3, health, 54, 50, 200, 50, 100);
+    rect(120, 3, health*2, 54);
     stroke(0);
     strokeWeight(2);
     fill(237, 28, 36, 50);
-    rect(123, 3, 174, 54, 50);
+    rect(120, 3, 200, 54);
   }
   // magic bar display
-  if (magic === 1) {
-    stroke(0);
-    strokeWeight(2);
-    fill(0, 183, 239);
-    rect(303, 3, 174, 54, 50);
-  }
-  else if (magic === 0) {
+  if (magic > 100/3) {
     noStroke();
     fill(0, 183, 239);
-    rect(303, 3, 60, 54, 50);
+    rect(360, 3, magic*2, 54);
     stroke(0);
     strokeWeight(2);
     fill(0, 183, 239, 50);
-    rect(303, 3, 174, 54, 50);
+    rect(360, 3, 200, 54);
+  }
+  else {
+    noStroke();
+    fill(50, 183, 239);
+    rect(360, 3, magic*2, 54);
+    stroke(0);
+    strokeWeight(2);
+    fill(50, 183, 239, 50);
+    rect(360, 3, 200, 54);
   }
   // head brain
   if (key === "0") {
@@ -653,17 +644,17 @@ function icons() {
   }
   // health bar brain
   if (key === "=") {
-    health = 174;
+    health = 100;
   }
   else if (key === "-") {
-    health = 48;
+    health = 33;
   }
   // Magic bar brain
   if (key === ".") {
-    magic = 1;
+    magic = 100;
   }
   else if (key === ",") {
-    magic = 0;
+    magic = 32;
   }
 
   // Health bar
@@ -749,7 +740,7 @@ function createEmpty2dArray(cols, rows) {
   return emptyGrid;
 }
 
-// Done
+// Done (Add new textus?)
 function showTile(location, x, y) {
   if (location === "D") {
     image(dirt, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
