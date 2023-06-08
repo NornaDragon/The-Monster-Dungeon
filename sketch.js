@@ -8,12 +8,12 @@
 // https://www.youtube.com/watch?v=3noMeuufLZY
 
 class Enemy {
-  constructor(x, y, type, element) {
+  constructor(x, y, type, element, life) {
     this.x = x;
     this.y = y;
     this.moveSpeed = 4.4;
     this.viewed = false;
-    this.life = 100;
+    this.life = life;
     this.type = type;
     this.element = element;
   }
@@ -29,27 +29,35 @@ class Enemy {
       image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
     }
     if (this.type === 2) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(bigGremAnimation[frameCount % bigGremAnimation.length], this.x, this.y);
     }
     if (this.type === 3) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(fireBigAnimation[frameCount % fireBigAnimation.length], this.x, this.y);
     }
     if (this.type === 4) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(magicMageAnimation[frameCount % magicMageAnimation.length], this.x, this.y);
     }
     if (this.type === 5) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(attackBargeletAnimation[frameCount % attackBargeletAnimation.length], this.x, this.y);
     }
     if (this.type === 6) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(slimeAnimation[frameCount % slimeAnimation.length], this.x, this.y);
     }
     if (this.type === 7) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(theSnakesAnimation[frameCount % theSnakesAnimation.length], this.x, this.y);
     }
     if (this.type === 8) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(bigEvilGuardAnimation[frameCount % bigEvilGuardAnimation.length], this.x, this.y);
     }
     if (this.type === 9) {
+      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
       // image(dragonAnimation[frameCount % dragonAnimation.length], this.x, this.y);
     }
   }
@@ -454,30 +462,64 @@ function startingplace() {
   if (newplacment === true) {
     if (forward) {
       if (level === 1) {
-        enemy1 = new Enemy(width/2, height/2, 0);
-        // enemy1 = new Enemy(width/2, height/2, 0,"null");
+        enemy1 = new Enemy(width/2, height/2, 0,"null", 40);
         enemyArray.push(enemy1);
         moveX = 240;
       }
       if (level === 2) {
+        enemy1 = new Enemy(width/2, height/2, 1,"null", 80);
+        enemyArray.push(enemy1);
+        enemy2 = new Enemy(width/2, height/2, 1,"null", 80);
+        enemyArray.push(enemy2);
+        enemy3 = new Enemy(width/2, height/2, 2,"null", 120);
+        enemyArray.push(enemy3);
         moveX = 240;
       }
       if (level === 3) {
+        enemy1 = new Enemy(width/2, height/2, 3,"null", 150);
+        enemyArray.push(enemy1);
         moveY = 660;
       }
       if (level === 4) {
+        enemy1 = new Enemy(width/2, height/2, 4,"null", 150);
+        enemyArray.push(enemy1);
+        enemy2 = new Enemy(width/2, height/2, 5,"null", 150);
         moveY = 660;
       }
       if (level === 5) {
+        enemy1 = new Enemy(width/2, height/2, 6,"null", 200);
+        enemyArray.push(enemy1);
         moveY = 660;
       }
       if (level === 6) {
+        enemy1 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemyArray.push(enemy1);
+        enemy2 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemyArray.push(enemy2);
+        enemy3 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemyArray.push(enemy3);
+        enemy4 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemyArray.push(enemy4);
         moveX = 1260;
       }
       if (level === 7) {
+        enemy1 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemyArray.push(enemy1);
+        enemy2 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemyArray.push(enemy2);
+        enemy3 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemyArray.push(enemy3);
+        enemy4 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemyArray.push(enemy4);
+        enemy5 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemyArray.push(enemy5);
+        enemy6 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemyArray.push(enemy6);
         moveY = 660;
       }
       if (level === 8) {
+        boss = new Enemy(width/2, height/2, 9,"null", 1000);
+        enemyArray.push(enemy1);
         moveY = 660;
       }
     }
@@ -511,9 +553,7 @@ function startingplace() {
 // change slice to happen when health is 0
 function roomEnemy() {
   if (level === 0) {
-    for (let i=0; i<enemyArray.length; i++) {
-      //
-    } 
+    defeated = true;
   }
   if (level === 1) {
     for (let i=0; i<enemyArray.length; i++) {
@@ -524,41 +564,137 @@ function roomEnemy() {
       if (enemyArray[i].isDead()) {
         enemyArray.splice(i,1);
       }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
     }
   }
   if (level === 2) {
     for (let i=0; i<enemyArray.length; i++) {
-      //
-    } 
-    // enemy1.typesEnemy();
-    // enemy2.typesEnemy();
+      if (i < 2) {
+        enemyArray[i].smallEnemyMove();
+      }
+      else {
+        enemyArray[i].bigEnemyMove();
+      }
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
   if (level === 3) {
-    // enemy1.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].bigEnemyMove();
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
   if (level === 4) {
-    // enemy1.typesEnemy();
-    // enemy2.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].bigEnemyMove();
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
   if (level === 5) {
-    // enemy1.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].smallEnemyMove();
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
   if (level === 6) {
-  //   enemy1.typesEnemy();
-  //   enemy2.typesEnemy();
-  //   enemy3.typesEnemy();
-  //   enemy4.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].smallEnemyMove();
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
   if (level === 7) {
-    // enemy1.typesEnemy();
-    // enemy2.typesEnemy();
-    // enemy3.typesEnemy();
-    // enemy4.typesEnemy();
-    // enemy5.typesEnemy();
-    // enemy6.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].smallEnemyMove();
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
   if (level === 8) {
-    // boss.typesEnemy();
+    for (let i=0; i<enemyArray.length; i++) {
+      enemyArray[i].smallEnemyMove();
+      enemyArray[i].typesEnemy();
+      enemyArray[i].walls();
+
+      if (enemyArray[i].isDead()) {
+        enemyArray.splice(i,1);
+      }
+      if (enemyArray.length > 0) {
+        defeated = false;
+      }
+      else {
+        defeated = true;
+      }
+    }
   }
 }
 
