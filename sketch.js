@@ -143,12 +143,19 @@ class Enemy {
 
   bigEnemyMove() {
     let choice = random(100);
-    if (choice < 50) {
+    if (choice < 25) {
       this.x -= this.moveSpeed/2;
     }
-    else if (choice < 100) {
+    else if (choice < 50) {
       this.x += this.moveSpeed/2;
     }
+    else if (choice < 75) {
+      this.y -= this.moveSpeed/2;
+    }
+    else if (choice < 100) {
+      this.y += this.moveSpeed/2;
+    }
+    this.life--;
   }
 
   isDead() {
