@@ -526,7 +526,7 @@ function startingplace() {
       }
       if (level === 8) {
         boss = new Enemy(width/2, height/2, 9,"null", 1000);
-        enemyArray.push(enemy1);
+        enemyArray.push(boss);
         moveY = 660;
       }
     }
@@ -694,12 +694,6 @@ function roomEnemy() {
 
       if (enemyArray[i].isDead()) {
         enemyArray.splice(i,1);
-      }
-      if (enemyArray.length > 0) {
-        defeated = false;
-      }
-      else {
-        defeated = true;
       }
     }
   }
