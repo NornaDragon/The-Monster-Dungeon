@@ -3,16 +3,16 @@ cs-30 major project spring 2023
 
 
 ## project remander 
-    0 = evilGuard
-    1 = gremAnimation
-    2 = bigGremAnimation
-    3 = fireBigAnimation
-    4 = magicMageAnimation
-    5 = attackBargeletAnimation
-    6 = slimeAnimation
-    7 = theSnakesAnimation
-    8 = bigEvilGuardAnimation
-    9 = dragonAnimation
+    0 = evilGuard small
+    1 = gremAnimation small
+    2 = bigGremAnimation big
+    3 = fireBigAnimation big
+    4 = magicMageAnimation big
+    5 = attackBargeletAnimation big
+    6 = slimeAnimation small
+    7 = theSnakesAnimation small
+    8 = bigEvilGuardAnimation big
+    9 = dragonAnimation big
 
     null = no effect
     fire = damage over time, faster speed

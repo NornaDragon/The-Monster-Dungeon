@@ -68,7 +68,7 @@ class Enemy {
         if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)] && tiles[y+1][x] === "D") {
           this.y += 0.5;
         }
-        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)]  && tiles[y-1][x] === "D") {
+        if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((this.y+60)/60)][Math.floor(this.x/60)]) {
           this.y -= 0.5;
         }
         if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(this.y/60)][Math.floor(this.x/60)]) {
@@ -83,16 +83,27 @@ class Enemy {
 
   enemyElement() {
     if (this.element === "null") { 
-      // melee attack
-      // = true
+      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY) {
+        if (health > 0) {
+          health -= 2*(this.type + 1);
+        }
+        else {
+          health = 0;
+        }
+        
+      }
     }
     if (this.element === "fire") {
-      // fire attack
-
-
-
-      // fire effect
-      // = true
+      // if ( && frameCount%30) {
+      //   health - 5;
+      //   let onFire = round(random(1));
+      //   let timeDamage = round(random(10));
+      //   if (onFire === 1 && timeDamage > 0) {
+      //     moveSpeed*2
+      //     health -= round(random(5));
+      //     timeDamage --;
+      //   }
+      // }
     }
     if (this.element === "ice") {
       // ice attack
@@ -138,7 +149,7 @@ class Enemy {
     else if (choice < 100) {
       this.y += this.moveSpeed;
     }
-    this.life--;
+    // this.life--;
   }
 
   bigEnemyMove() {
@@ -156,6 +167,12 @@ class Enemy {
       this.y += this.moveSpeed/2;
     }
     this.life--;
+  }
+
+  playerHit() {
+    if (moveX-30 < this.x && moveX+90 > this.x && moveY-30 < this.y && moveY+90 > this.y && mouseIsPressed) {
+      this.life--;
+    }
   }
 
   isDead() {
@@ -327,6 +344,15 @@ function draw() {
   icons();
   wallBlock();
   roomEnemy();
+  gameEnd();
+}
+
+
+function gameEnd() {
+  if (health === 0) {
+    rect(0, 0, width, height);
+    fill(0);
+  }
 }
 
 function theplayer() {
@@ -385,7 +411,7 @@ function wallBlock() {
       if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(UP_ARROW) && tiles[y+1][x] === "D") {
         moveY += 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW) && tiles[y-1][x] === "D") {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW)) {
         moveY -= 0.5;
       }
       if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(LEFT_ARROW)) {
@@ -566,6 +592,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].smallEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {

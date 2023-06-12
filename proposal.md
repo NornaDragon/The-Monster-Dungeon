@@ -32,7 +32,7 @@ Not started 2/7
 
 - Battle system (icons done)
 
-    - Different types of damage
+    - Different types of damage (melee done)
 
         - Status effects
             - healing (HP/MP)
