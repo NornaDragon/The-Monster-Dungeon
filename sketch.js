@@ -102,18 +102,22 @@ class Enemy {
         this.onFire = round(random(1));
         this.timeDamage = round(random(10));
       }
-      if (this.onFire === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
-        fill(255, 0, 0);
-        rect(moveX, moveY, 60);
-        moveSpeed = 8.8;
-        health -= round(random(5));
-        this.timeDamage --;
+      else if (this.onFire === 1) {
+        if (this.timeDamage > 0) {
+          fill(255, 0, 0);
+          rect(moveX, moveY, 60);
+          moveSpeed = 8.8;
+          if (frameCount%60 === 0) {
+            health -= round(random(5));
+            this.timeDamage --;
+          }
+        }
+        else {
+          moveSpeed = 4.4;
+        }
       }
       if (health < 0){
         health = 0;
-      }
-      if (this.timeDamage < 0) {
-        moveSpeed = 4.4;
       }
     }
     if (this.element === "ice") {
