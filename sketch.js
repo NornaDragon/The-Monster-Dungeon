@@ -16,6 +16,8 @@ class Enemy {
     this.life = life;
     this.type = type;
     this.element = element;
+    this.onFire = 0;
+    this.timeDamage = 0;
   }
 
   typesEnemy() {
@@ -83,7 +85,8 @@ class Enemy {
 
   enemyElement() {
     if (this.element === "null") { 
-      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY) {
+      console.log(health);
+      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
         if (health > 0) {
           health -= 2*(this.type + 1);
         }
@@ -94,16 +97,24 @@ class Enemy {
       }
     }
     if (this.element === "fire") {
-      // if ( && frameCount%30) {
-      //   health - 5;
-      //   let onFire = round(random(1));
-      //   let timeDamage = round(random(10));
-      //   if (onFire === 1 && timeDamage > 0) {
-      //     moveSpeed*2
-      //     health -= round(random(5));
-      //     timeDamage --;
-      //   }
-      // }
+      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+        health -= 5;
+        this.onFire = round(random(1));
+        this.timeDamage = round(random(10));
+      }
+      if (this.onFire === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
+        fill(255, 0, 0);
+        rect(moveX, moveY, 60);
+        moveSpeed = 8.8;
+        health -= round(random(5));
+        this.timeDamage --;
+      }
+      if (health < 0){
+        health = 0;
+      }
+      if (this.timeDamage < 0) {
+        moveSpeed = 4.4;
+      }
     }
     if (this.element === "ice") {
       // ice attack
@@ -149,7 +160,6 @@ class Enemy {
     else if (choice < 100) {
       this.y += this.moveSpeed;
     }
-    // this.life--;
   }
 
   bigEnemyMove() {
@@ -166,11 +176,10 @@ class Enemy {
     else if (choice < 100) {
       this.y += this.moveSpeed/2;
     }
-    this.life--;
   }
 
   playerHit() {
-    if (moveX-30 < this.x && moveX+90 > this.x && moveY-30 < this.y && moveY+90 > this.y && mouseIsPressed) {
+    if (moveX-60 < this.x && moveX+120 > this.x && moveY-60 < this.y && moveY+120 > this.y && mouseIsPressed) {
       this.life--;
     }
   }
@@ -509,7 +518,7 @@ function startingplace() {
         moveX = 240;
       }
       if (level === 3) {
-        enemy1 = new Enemy(width/2, height/2, 3,"null", 150);
+        enemy1 = new Enemy(width/2, height/2, 3,"fire", 150);
         enemyArray.push(enemy1);
         moveY = 660;
       }
@@ -616,6 +625,8 @@ function roomEnemy() {
         enemyArray[i].bigEnemyMove();
       }
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
@@ -633,6 +644,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].bigEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
@@ -650,6 +663,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].bigEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
@@ -667,6 +682,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].smallEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
@@ -684,6 +701,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].smallEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
@@ -701,6 +720,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].smallEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
@@ -718,6 +739,8 @@ function roomEnemy() {
     for (let i=0; i<enemyArray.length; i++) {
       enemyArray[i].smallEnemyMove();
       enemyArray[i].typesEnemy();
+      enemyArray[i].enemyElement();
+      enemyArray[i].playerHit();
       enemyArray[i].walls();
 
       if (enemyArray[i].isDead()) {
