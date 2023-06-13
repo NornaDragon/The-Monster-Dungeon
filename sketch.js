@@ -102,19 +102,15 @@ class Enemy {
         this.onFire = round(random(1));
         this.timeDamage = round(random(10));
       }
-      else if (this.onFire === 1) {
-        if (this.timeDamage > 0) {
-          fill(255, 0, 0);
-          rect(moveX, moveY, 60);
-          moveSpeed = 8.8;
-          if (frameCount%60 === 0) {
-            health -= round(random(5));
-            this.timeDamage --;
-          }
-        }
-        else {
-          moveSpeed = 4.4;
-        }
+      if (this.onFire === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
+        statusEffect = 1;
+        moveSpeed = 8.8;
+        health -= round(random(5));
+        this.timeDamage --;
+      }
+      else {
+        moveSpeed = 4.4;
+        statusEffect = 0;
       }
       if (health < 0){
         health = 0;
@@ -209,8 +205,13 @@ let beenSet = false;
 let Assets24fps_60x60;
 let guardAnimation = [];
 let guardRightAnimation = [];
+let guardForwardAnimation = [];
+let guardBackwardAnimation = [];
+
 let guardWalkAnimation = [];
 let guardRightWalkAnimation = [];
+let guardForwardWalkAnimation = [];
+let guardBackwardWalkAnimation = [];
 
 let gremAnimation = [];
 let bigGremAnimation = [];
@@ -223,7 +224,7 @@ let attackBargeletAnimation = [];
 let theSnakesAnimation = [];
 let dragonAnimation = [];
 
-let guardIdleImage, guardRightIdleImage,guardFrontIdleImage, guardBackIdleImage, guardWalkImage, guardRightWalkImage;
+let guardIdleImage, guardRightIdleImage, guardForwardIdleImage, guardBackwardIdleImage, guardWalkImage, guardRightWalkImage, guardForwardWalkImage, guardBackwardWalkImage;
 
 let gremIdleImage;
 let bigGremIdleImage;
@@ -240,8 +241,10 @@ let enemyArray = [];
 let enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, boss;
 
 let guardstill = true;
-let isUp = true;
+let isUp = false;
 let isRight = false;
+let isDown = false;
+let isLeft = true;
 let moveSpeed = 4.4;
 
 let level = 0;
@@ -319,10 +322,13 @@ function preload() {
   // Guard Sprite Sheets
   guardIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_sprite_sheet.png");
   guardRightIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_right_sprite_sheet.png");
-  guardFrontIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_right_sprite_sheet.png");
-  guardBackIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_right_sprite_sheet.png");
+  guardForwardIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_forward_sprite_sheet.png");
+  guardBackwardIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_backward_sprite_sheet.png");
+
   guardWalkImage = loadImage("assets/image_and_animation/animation/guard_walk_sprite_sheet.png");
   guardRightWalkImage = loadImage("assets/image_and_animation/animation/guard_walk_right_sprite_sheet.png");
+  guardForwardWalkImage = loadImage("assets/image_and_animation/animation/guard_walk_forward_sprite_sheet.png");
+  guardBackwardWalkImage = loadImage("assets/image_and_animation/animation/guard_walk_backward_sprite_sheet.png");
 
   // Grem Sprite Sheet
   gremIdleImage = loadImage("assets/image_and_animation/animation/grem_idle_sprite_sheet.png");
@@ -373,7 +379,13 @@ function theplayer() {
     if (isRight) {
       image(guardRightAnimation[frameCount % guardRightAnimation.length], moveX, moveY);
     }
-    else {
+    if (isUp) {
+      image(guardForwardAnimation[frameCount % guardForwardAnimation.length], moveX, moveY);
+    }
+    if (isDown) {
+      image(guardBackwardAnimation[frameCount % guardBackwardAnimation.length], moveX, moveY);
+    }
+    if (isLeft) {
       image(guardAnimation[frameCount % guardAnimation.length], moveX, moveY);
     }
   }
@@ -381,13 +393,22 @@ function theplayer() {
     if (isRight) {
       image(guardRightWalkAnimation[frameCount % guardRightWalkAnimation.length], moveX, moveY);
     }
-    else {
+    if (isUp) {
+      image(guardForwardWalkAnimation[frameCount % guardForwardWalkAnimation.length], moveX, moveY);
+    }
+    if (isDown) {
+      image(guardBackwardWalkAnimation[frameCount % guardBackwardWalkAnimation.length], moveX, moveY);
+    }
+    if (isLeft) {
       image(guardWalkAnimation[frameCount % guardWalkAnimation.length], moveX, moveY);
     }
   }
 
   if (keyIsDown(RIGHT_ARROW)) {
     isRight = true;
+    isUp = false;
+    isDown = false;
+    isLeft = false;
     if (moveX < width-54) {
       moveX += moveSpeed;
     }
@@ -395,18 +416,29 @@ function theplayer() {
   }
   else if (keyIsDown(LEFT_ARROW)) {
     isRight = false;
+    isUp = false;
+    isDown = false;
+    isLeft = true;
     if (moveX > -6) {
       moveX -= moveSpeed;
     }
     guardstill = false;
   }
   else if (keyIsDown(UP_ARROW)) {
+    isRight = false;
+    isUp = true;
+    isDown = false;
+    isLeft = false;
     if (moveY > - 2) {
       moveY -= moveSpeed;
     }
     guardstill = false;
   }
   else if (keyIsDown(DOWN_ARROW)) {
+    isRight = false;
+    isUp = false;
+    isDown = true;
+    isLeft = false;
     if (moveY < height-60) {
       moveY += moveSpeed;
     }
@@ -876,6 +908,20 @@ function animationSpilce() {
     guardRightAnimation.push(img);
   }
 
+  let guardForwardFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardForwardFrames.length; i++) {
+    let pos = guardForwardFrames[i].position;
+    let img = guardForwardIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardForwardAnimation.push(img);
+  }
+
+  let guardBackwardFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardBackwardFrames.length; i++) {
+    let pos = guardBackwardFrames[i].position;
+    let img = guardBackwardIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardBackwardAnimation.push(img);
+  }
+
   let guardWalkFrames = Assets24fps_60x60.frames;
   for (let i = 0; i < guardWalkFrames.length; i++) {
     let pos = guardWalkFrames[i].position;
@@ -888,6 +934,20 @@ function animationSpilce() {
     let pos = guardRightWalkFrames[i].position;
     let img = guardRightWalkImage.get(pos.x, pos.y, pos.w, pos.h);
     guardRightWalkAnimation.push(img);
+  }
+
+  let guardForwardWalkFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardForwardWalkFrames.length; i++) {
+    let pos = guardForwardWalkFrames[i].position;
+    let img = guardForwardWalkImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardForwardWalkAnimation.push(img);
+  }
+
+  let guardBackwardWalkFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < guardBackwardWalkFrames.length; i++) {
+    let pos = guardBackwardWalkFrames[i].position;
+    let img = guardBackwardWalkImage.get(pos.x, pos.y, pos.w, pos.h);
+    guardBackwardWalkAnimation.push(img);
   }
 
   let gremIdleFrames = Assets24fps_60x60.frames;
