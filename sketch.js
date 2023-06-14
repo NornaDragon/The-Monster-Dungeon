@@ -16,7 +16,7 @@ class Enemy {
     this.life = life;
     this.type = type;
     this.element = element;
-    this.onFire = 0;
+    this.effectOn = 0;
     this.timeDamage = 0;
   }
 
@@ -89,6 +89,13 @@ class Enemy {
       if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
         if (health > 0) {
           health -= 2*(this.type + 1);
+          if (health > 100/3) {
+            statusEffect = 0;
+          }
+          else {
+            statusEffect = 5;
+          }
+          
         }
         else {
           health = 0;
@@ -97,15 +104,17 @@ class Enemy {
       }
     }
     if (this.element === "fire") {
+      // change v
       if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+        // change ^
         health -= 5;
-        this.onFire = round(random(1));
-        this.timeDamage = round(random(10));
+        this.effectOn = round(random(1));
+        this.timeDamage = round(random(2, 10));
       }
-      if (this.onFire === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
+      if (this.effectOn === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
         statusEffect = 1;
         moveSpeed = 8.8;
-        health -= round(random(5));
+        health -= round(random(1, 5));
         this.timeDamage --;
       }
       else {
@@ -117,33 +126,62 @@ class Enemy {
       }
     }
     if (this.element === "ice") {
-      // ice attack
-
-
-
-      // ice effect
-      // = true
-      // duration = random(5, 25)
-      // this.speed = 0
-      // framerate%60 (duration --)
+      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+        health -= 5;
+        this.effectOn = round(random(1));
+        this.timeDamage = round(random(5, 15));
+      }
+      if (this.effectOn === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
+        statusEffect = 4;
+        moveSpeed = 0;
+        this.timeDamage --;
+      }
+      else {
+        moveSpeed = 4.4;
+        statusEffect = 0;
+      }
+      if (health < 0){
+        health = 0;
+      }
     }
     if (this.element === "poison") {
-      // poison attack
-
-
-      // poison effect
-      // = true
-      // health -= random(0, 5)
+      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+        health -= 3;
+        this.effectOn = round(random(1));
+        this.timeDamage = round(random(5, 20));
+      }
+      if (this.effectOn === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
+        statusEffect = 2;
+        moveSpeed = 8.8;
+        health -= round(random(1, 5));
+        this.timeDamage --;
+      }
+      else {
+        statusEffect = 0;
+      }
+      if (health < 0){
+        health = 0;
+      }
     }
-    if (this.element === "magicDrain") {
-      // magicDrain attack
-
-
-      // magicDrain effect
-      // = true
-      // health -= random(0, 5)
-      // mp -= 2
+    if (this.element === "healthUp") {
+      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+        health -= 3;
+        this.effectOn = round(random(1));
+        this.timeDamage = round(random(5, 20));
+      }
+      if (this.effectOn === 1 && this.timeDamage > 0 && frameCount%60 === 0) {
+        statusEffect = 3;
+        health += round(random(1, 5));
+        this.timeDamage --;
+      }
+      else {
+        statusEffect = 0;
+      }
+      if (health > 100){
+        health = 100;
+      }
     }
+
   }
 
   smallEnemyMove() {
@@ -189,7 +227,8 @@ class Enemy {
   }
 }
 
-let badGuys = [];
+let win = false;
+let lost = false;
 
 let moveX = 720;
 let moveY = 660;
@@ -358,19 +397,37 @@ function setup() {
 
 function draw() {
   display();
-  theplayer();
-  change();
-  icons();
-  wallBlock();
-  roomEnemy();
-  gameEnd();
+  if (win === false && lost === false) {
+    theplayer();
+    change();
+    icons();
+    wallBlock();
+    roomEnemy();
+  }
+  else {
+    gameWin();
+    gameLost();
+  }
 }
 
-
-function gameEnd() {
-  if (health === 0) {
+function gameLost() {
+  if (lost === true) {
+    fill(255, 0, 0);
     rect(0, 0, width, height);
     fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(200);
+    text("YOU LOSE", width/2, height/2);
+  }
+}
+function gameWin() {
+  if (win === true) {
+    fill(0, 255, 0);
+    rect(0, 0, width, height);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(200);
+    text("YOU WIN", width/2, height/2);
   }
 }
 
@@ -404,7 +461,7 @@ function theplayer() {
     }
   }
 
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
     isRight = true;
     isUp = false;
     isDown = false;
@@ -414,7 +471,7 @@ function theplayer() {
     }
     guardstill = false;
   }
-  else if (keyIsDown(LEFT_ARROW)) {
+  else if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
     isRight = false;
     isUp = false;
     isDown = false;
@@ -424,7 +481,7 @@ function theplayer() {
     }
     guardstill = false;
   }
-  else if (keyIsDown(UP_ARROW)) {
+  else if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
     isRight = false;
     isUp = true;
     isDown = false;
@@ -434,7 +491,7 @@ function theplayer() {
     }
     guardstill = false;
   }
-  else if (keyIsDown(DOWN_ARROW)) {
+  else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
     isRight = false;
     isUp = false;
     isDown = true;
@@ -447,22 +504,26 @@ function theplayer() {
   else {
     guardstill = true;
   }
+
+  if (health === 0) {
+    lost = true;
+  }
 }
 
 //Done (block under door is funky)
 function wallBlock() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(UP_ARROW) && tiles[y+1][x] === "D") {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && (keyIsDown(UP_ARROW) || keyIsDown(87)) && tiles[y+1][x] === "D") {
         moveY += 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && keyIsDown(DOWN_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor((moveY+60)/60)][Math.floor(moveX/60)] && (keyIsDown(DOWN_ARROW) || keyIsDown(83))) {
         moveY -= 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && keyIsDown(LEFT_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor(moveX/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(65))) {
         moveX += 0.5;
       }
-      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor((moveX+60)/60)] && keyIsDown(RIGHT_ARROW)) {
+      if (tiles[y][x] === "B" && tiles[y][x] === tiles[Math.floor(moveY/60)][Math.floor((moveX+60)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(68))) {
         moveX -= 0.5;
       }
     }
@@ -474,56 +535,56 @@ function change() {
   for (let y = 0; y < tilesHigh; y++) {
     for (let x = 0; x < tilesWide; x++) {
       if (defeated === true) {
-        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(LEFT_ARROW))){
+        if (tiles[y][x] === "P" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(87) || keyIsDown(LEFT_ARROW) || keyIsDown(65))){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(RIGHT_ARROW))){
+        if (tiles[y][x] === "A" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(UP_ARROW) || keyIsDown(87) || keyIsDown(RIGHT_ARROW) || keyIsDown(68))){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
+        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW) || keyIsDown(65)){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW)){
+        if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW) || keyIsDown(65)){
           level--;
           levelLoader();
           newplacment = true;
           forward = false;
           startingplace();
         }
-        if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW)){
+        if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
           level--;
           levelLoader();
           newplacment = true;
           forward = false;
           startingplace();
         }
-        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(DOWN_ARROW))){
+        if (tiles[y][x] === "t" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(65) || keyIsDown(DOWN_ARROW) || keyIsDown(83))){
           level--;
           levelLoader();
           newplacment = true;
           forward = false;
           startingplace();
         }
-        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(DOWN_ARROW))){
+        if (tiles[y][x] === "h" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(68) || keyIsDown(DOWN_ARROW) || keyIsDown(83))){
           level--;
           levelLoader();
           newplacment = true;
@@ -561,42 +622,42 @@ function startingplace() {
       if (level === 4) {
         enemy1 = new Enemy(width/2, height/2, 4,"null", 150);
         enemyArray.push(enemy1);
-        enemy2 = new Enemy(width/2, height/2, 5,"null", 150);
+        enemy2 = new Enemy(width/2, height/2, 5,"ice", 150);
         moveY = 660;
       }
       if (level === 5) {
-        enemy1 = new Enemy(width/2, height/2, 6,"null", 200);
+        enemy1 = new Enemy(width/2, height/2, 6,"ice", 200);
         enemyArray.push(enemy1);
         moveY = 660;
       }
       if (level === 6) {
         enemy1 = new Enemy(width/2, height/2, 7,"null", 300);
         enemyArray.push(enemy1);
-        enemy2 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemy2 = new Enemy(width/2, height/2, 7,"fire", 300);
         enemyArray.push(enemy2);
-        enemy3 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemy3 = new Enemy(width/2, height/2, 7,"poison", 300);
         enemyArray.push(enemy3);
-        enemy4 = new Enemy(width/2, height/2, 7,"null", 300);
+        enemy4 = new Enemy(width/2, height/2, 7,"ice", 300);
         enemyArray.push(enemy4);
         moveX = 1260;
       }
       if (level === 7) {
-        enemy1 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemy1 = new Enemy(width/2, height/2, 8,"fire", 250);
         enemyArray.push(enemy1);
-        enemy2 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemy2 = new Enemy(width/2, height/2, 8,"fire", 250);
         enemyArray.push(enemy2);
-        enemy3 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemy3 = new Enemy(width/2, height/2, 8,"poison", 250);
         enemyArray.push(enemy3);
-        enemy4 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemy4 = new Enemy(width/2, height/2, 8,"poison", 250);
         enemyArray.push(enemy4);
-        enemy5 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemy5 = new Enemy(width/2, height/2, 8,"ice", 250);
         enemyArray.push(enemy5);
-        enemy6 = new Enemy(width/2, height/2, 8,"null", 250);
+        enemy6 = new Enemy(width/2, height/2, 8,"ice", 250);
         enemyArray.push(enemy6);
         moveY = 660;
       }
       if (level === 8) {
-        boss = new Enemy(width/2, height/2, 9,"null", 1000);
+        boss = new Enemy(width/2, height/2, 9,"fire", 1000);
         enemyArray.push(boss);
         moveY = 660;
       }
@@ -781,6 +842,7 @@ function roomEnemy() {
 
       if (enemyArray[i].isDead()) {
         enemyArray.splice(i,1);
+        win = true;
       }
     }
   }
@@ -860,6 +922,7 @@ function icons() {
   else if (key === "3") {
     statusEffect = 3;
   }
+  // change
   else if (key === "4") {
     statusEffect = 4;
   }
@@ -880,16 +943,6 @@ function icons() {
   else if (key === ",") {
     magic = 32;
   }
-
-  // Health bar
-
-  // Ally/Companion effect (Heal/stat increse)
-
-  // Melee Damage
-
-  // Ranged Damage
-
-  // Magic Damage
 }
 
 // Done

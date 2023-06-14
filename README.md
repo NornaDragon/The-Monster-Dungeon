@@ -18,6 +18,14 @@ cs-30 major project spring 2023
     fire = damage over time, faster speed
     ice = no damage, stuck in place
     poison = damage over time, slower speed
+    healthUp = +health
+
+    statusEffect 0 = normal
+    statusEffect 1 = fire
+    statusEffect 2 = poison
+    statusEffect 3 = heal
+    statusEffect 4 = ice**
+    statusEffect 5 = red health
 
 
 ## Code from other projects to keep in mind (credited to Schellenberg)
