@@ -18,10 +18,15 @@
 ### Over-all impression
 Admittedly, I am a bit biassed but, despite some of the minor issue/suggestions that I mentioned, I’m impressed at what the programmer has achieved with relatively recent JavaScript coding skills. Bravo.
 
-## Name (NOT Code savie)
-### Good
-- 
-### Bad
-- 
-### Extra
-- 
+## P. ina van der Spuy (no/limited comp. sci knowledge)
+### Initial remarks
+- As a novice in computer games, I needed more than a few instructions from the programmer to start the game.
+- However, post instructions, it was fairly easy to play.
+
+### Playing the game
+- Although it was fairly easy to play the game, I wasn’t able to get past the third “enemy”. My coordination between the arrows and the mouse just wasn’t fast enough.
+### Suggestions for possible future enhancements
+- More instructions on what is happening inside the game will be helpful.
+
+### Over-all impression
+As a complete novice, it is difficult for me to comment on the quality of the game, however, I enjoyed playing the game.
