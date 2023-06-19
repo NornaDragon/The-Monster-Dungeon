@@ -8,7 +8,7 @@ cs-30 major project spring 2023
     2 = bigGremAnimation big
     3 = fireBigAnimation big
     4 = magicMageAnimation big
-    5 = attackBargeletAnimation big
+    5 = attackBargeAnimation big
     6 = slimeAnimation small
     7 = theSnakesAnimation small
     8 = bigEvilGuardAnimation big

@@ -11,6 +11,8 @@ class Enemy {
   constructor(x, y, type, element, life) {
     this.x = x;
     this.y = y;
+    this.width;
+    this.height;
     this.moveSpeed = 4.4;
     this.viewed = false;
     this.life = life;
@@ -23,44 +25,54 @@ class Enemy {
   typesEnemy() {
     // animationSpilce();
     if (this.type === 0) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-
-      // image(evilGuardAnimation[frameCount % evilGuardAnimation.length], this.x, this.y);
+      image(evilGuardAnimation[frameCount % evilGuardAnimation.length], this.x, this.y);
+      this.width = 60;
+      this.height = 60;
     }
     if (this.type === 1) {
       image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
+      this.width = 60;
+      this.height = 60;
     }
     if (this.type === 2) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(bigGremAnimation[frameCount % bigGremAnimation.length], this.x, this.y);
+      image(bigGremAnimation[frameCount % bigGremAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 3) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(fireBigAnimation[frameCount % fireBigAnimation.length], this.x, this.y);
+      image(fireBigAnimation[frameCount % fireBigAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 4) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(magicMageAnimation[frameCount % magicMageAnimation.length], this.x, this.y);
+      image(magicMageAnimation[frameCount % magicMageAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 5) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(attackBargeletAnimation[frameCount % attackBargeletAnimation.length], this.x, this.y);
+      image(attackBargeAnimation[frameCount % attackBargeAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 6) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(slimeAnimation[frameCount % slimeAnimation.length], this.x, this.y);
+      image(slimeAnimation[frameCount % slimeAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 7) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(theSnakesAnimation[frameCount % theSnakesAnimation.length], this.x, this.y);
+      image(theSnakesAnimation[frameCount % theSnakesAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 8) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(bigEvilGuardAnimation[frameCount % bigEvilGuardAnimation.length], this.x, this.y);
+      image(bigEvilGuardAnimation[frameCount % bigEvilGuardAnimation.length], this.x, this.y);
+      this.width = 120;
+      this.height = 120;
     }
     if (this.type === 9) {
-      image(gremAnimation[frameCount % gremAnimation.length], this.x, this.y);
-      // image(dragonAnimation[frameCount % dragonAnimation.length], this.x, this.y);
+      image(dragonAnimation[frameCount % dragonAnimation.length], this.x, this.y);
+      this.width = 180;
+      this.height = 180;
     }
   }
   // Done
@@ -86,7 +98,7 @@ class Enemy {
   enemyElement() {
     if (this.element === "null") { 
       console.log(health);
-      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+      if (this.x-30 < moveX && this.x+this.width+30 > moveX && this.y-30 < moveY && this.y+this.height+30 > moveY && frameCount%30 === 0) {
         if (health > 0) {
           health -= 2*(this.type + 1);
           if (health > 100/3) {
@@ -104,9 +116,7 @@ class Enemy {
       }
     }
     if (this.element === "fire") {
-      // change v
-      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
-        // change ^
+      if (this.x-30 < moveX && this.x+this.width+30 > moveX && this.y-30 < moveY && this.y+this.height+30 > moveY && frameCount%30 === 0) {
         health -= 5;
         this.effectOn = round(random(1));
         this.timeDamage = round(random(2, 10));
@@ -126,7 +136,7 @@ class Enemy {
       }
     }
     if (this.element === "ice") {
-      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+      if (this.x-30 < moveX && this.x+this.width+30 > moveX && this.y-30 < moveY && this.y+this.height+30 > moveY && frameCount%30 === 0) {
         health -= 5;
         this.effectOn = round(random(1));
         this.timeDamage = round(random(5, 15));
@@ -145,7 +155,7 @@ class Enemy {
       }
     }
     if (this.element === "poison") {
-      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+      if (this.x-30 < moveX && this.x+this.width+30 > moveX && this.y-30 < moveY && this.y+this.height+30 > moveY && frameCount%30 === 0) {
         health -= 3;
         this.effectOn = round(random(1));
         this.timeDamage = round(random(5, 20));
@@ -164,7 +174,7 @@ class Enemy {
       }
     }
     if (this.element === "healthUp") {
-      if (this.x-30 < moveX && this.x+90 > moveX && this.y-30 < moveY && this.y+90 > moveY && frameCount%30 === 0) {
+      if (this.x-30 < moveX && this.x+this.width+30 > moveX && this.y-30 < moveY && this.y+this.height+30 > moveY && frameCount%30 === 0) {
         health -= 3;
         this.effectOn = round(random(1));
         this.timeDamage = round(random(5, 20));
@@ -217,8 +227,8 @@ class Enemy {
   }
 
   playerHit() {
-    if (moveX-60 < this.x && moveX+120 > this.x && moveY-60 < this.y && moveY+120 > this.y && mouseIsPressed) {
-      this.life--;
+    if (this.x-60 < moveX && this.x+this.width+60 > moveX && this.y-60 < moveY && this.y+this.height+60 > moveY && mouseIsPressed) {
+      this.life --;
     }
   }
 
@@ -242,6 +252,8 @@ let magic = 100;
 let beenSet = false;
 
 let Assets24fps_60x60;
+let Assets24fps_120x120;
+let Assets24fps_180x180;
 let guardAnimation = [];
 let guardRightAnimation = [];
 let guardForwardAnimation = [];
@@ -259,7 +271,7 @@ let bigEvilGuardAnimation = [];
 let fireBigAnimation = [];
 let slimeAnimation = [];
 let magicMageAnimation = [];
-let attackBargeletAnimation = [];
+let attackBargeAnimation = [];
 let theSnakesAnimation = [];
 let dragonAnimation = [];
 
@@ -357,6 +369,8 @@ function preload() {
 
   // 24 frames for 60 x 60 characters
   Assets24fps_60x60 = loadJSON("assets/image_and_animation/animation/24fps_60x60.json");
+  Assets24fps_120x120 = loadJSON("assets/image_and_animation/animation/24fps_120x120.json");
+  Assets24fps_180x180 = loadJSON("assets/image_and_animation/animation/24fps_180x180.json");
 
   // Guard Sprite Sheets
   guardIdleImage = loadImage("assets/image_and_animation/animation/guard_idle_sprite_sheet.png");
@@ -371,6 +385,16 @@ function preload() {
 
   // Grem Sprite Sheet
   gremIdleImage = loadImage("assets/image_and_animation/animation/grem_idle_sprite_sheet.png");
+  bigGremIdleImage = loadImage("assets/image_and_animation/animation/big_grem_idle_sprite_sheet.png");
+  evilGuardIdleImage = loadImage("assets/image_and_animation/animation/evil_guard_idle_sprite_sheet.png");
+  bigEvilGuardIdleImage = loadImage("assets/image_and_animation/animation/big_evil_guard_idle_sprite_sheet.png");
+  fireBigIdleImage = loadImage("assets/image_and_animation/animation/fire_big_idle_sprite_sheet.png");
+  slimeIdleImage = loadImage("assets/image_and_animation/animation/slime_idle_sprite_sheet.png");
+  magicMageIdleImage = loadImage("assets/image_and_animation/animation/magic_mage_idle_sprite_sheet.png");
+  attackBargeIdleImage = loadImage("assets/image_and_animation/animation/attack_barge_idle_sprite_sheet.png");
+  theSnakesIdleImage = loadImage("assets/image_and_animation/animation/the_snakes_idle_sprite_sheet.png");
+  dragonIdleImage = loadImage("assets/image_and_animation/animation/dragon_idle_sprite_sheet.png");
+
 }
 
 function setup() {
@@ -420,6 +444,7 @@ function gameLost() {
     text("YOU LOSE", width/2, height/2);
   }
 }
+
 function gameWin() {
   if (win === true) {
     fill(0, 255, 0);
@@ -549,28 +574,28 @@ function change() {
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+        if (tiles[y][x] === "T" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(65))){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+        if (tiles[y][x] === "H" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(68))){
           level++;
           levelLoader();
           newplacment = true;
           forward = true;
           startingplace();
         }
-        if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(LEFT_ARROW) || keyIsDown(65)){
+        if (tiles[y][x] === "p" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(LEFT_ARROW) || keyIsDown(65))){
           level--;
           levelLoader();
           newplacment = true;
           forward = false;
           startingplace();
         }
-        if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
+        if (tiles[y][x] === "a" && tiles[y][x] === tiles[Math.floor((moveY+30)/60)][Math.floor((moveX+30)/60)] && (keyIsDown(RIGHT_ARROW) || keyIsDown(68))){
           level--;
           levelLoader();
           newplacment = true;
@@ -623,6 +648,7 @@ function startingplace() {
         enemy1 = new Enemy(width/2, height/2, 4,"null", 150);
         enemyArray.push(enemy1);
         enemy2 = new Enemy(width/2, height/2, 5,"ice", 150);
+        enemyArray.push(enemy2);
         moveY = 660;
       }
       if (level === 5) {
@@ -947,6 +973,7 @@ function icons() {
 
 // Done
 function animationSpilce() {
+  // hero
   let guardFrames = Assets24fps_60x60.frames;
   for (let i = 0; i < guardFrames.length; i++) {
     let pos = guardFrames[i].position;
@@ -1003,11 +1030,66 @@ function animationSpilce() {
     guardBackwardWalkAnimation.push(img);
   }
 
+  // enemies
   let gremIdleFrames = Assets24fps_60x60.frames;
   for (let i = 0; i < gremIdleFrames.length; i++) {
     let pos = gremIdleFrames[i].position;
     let img = gremIdleImage.get(pos.x, pos.y, pos.w, pos.h);
     gremAnimation.push(img);
+  }
+  let bigGremIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < bigGremIdleFrames.length; i++) {
+    let pos = bigGremIdleFrames[i].position;
+    let img = bigGremIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    bigGremAnimation.push(img);
+  }
+  let evilGuardIdleFrames = Assets24fps_60x60.frames;
+  for (let i = 0; i < evilGuardIdleFrames.length; i++) {
+    let pos = evilGuardIdleFrames[i].position;
+    let img = evilGuardIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    evilGuardAnimation.push(img);
+  }
+  let bigEvilGuardIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < bigEvilGuardIdleFrames.length; i++) {
+    let pos = bigEvilGuardIdleFrames[i].position;
+    let img = bigEvilGuardIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    bigEvilGuardAnimation.push(img);
+  }
+  let fireBigIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < fireBigIdleFrames.length; i++) {
+    let pos = fireBigIdleFrames[i].position;
+    let img = fireBigIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    fireBigAnimation.push(img);
+  }
+  let slimeIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < slimeIdleFrames.length; i++) {
+    let pos = slimeIdleFrames[i].position;
+    let img = slimeIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    slimeAnimation.push(img);
+  }
+  let magicMageIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < magicMageIdleFrames.length; i++) {
+    let pos = magicMageIdleFrames[i].position;
+    let img = magicMageIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    magicMageAnimation.push(img);
+  }
+  let attackBargeIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < attackBargeIdleFrames.length; i++) {
+    let pos = attackBargeIdleFrames[i].position;
+    let img = attackBargeIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    attackBargeAnimation.push(img);
+  }
+  let theSnakesIdleFrames = Assets24fps_120x120.frames;
+  for (let i = 0; i < theSnakesIdleFrames.length; i++) {
+    let pos = theSnakesIdleFrames[i].position;
+    let img = theSnakesIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    theSnakesAnimation.push(img);
+  }
+  let dragonIdleFrames = Assets24fps_180x180.frames;
+  for (let i = 0; i < dragonIdleFrames.length; i++) {
+    let pos = dragonIdleFrames[i].position;
+    let img = dragonIdleImage.get(pos.x, pos.y, pos.w, pos.h);
+    dragonAnimation.push(img);
   }
 }
 
