@@ -4,9 +4,6 @@
 
 A dungeon crawler with enemies and helpful allies. 
 
-Done 3/7
-Working on 2/7
-Not started 2/7
 # 
 ## Needs to Have
 # 
@@ -16,30 +13,30 @@ Not started 2/7
 
 - layout change (Complete)
 
-- Music and sound effects (not started)
+- Music and sound effects ((not implemented))
 
-- Companion AI (not started)
+- Companion AI ((not implemented))
 
     - Helps the player
 
     - Gives helpful status effects
 
-- Enemy AI (good start on it)
+- Enemy AI (Done)
 
     - Random movement when no player is in the line of sight (Done)
     
-    - When a player is spotted go toward them
+    - When a player is spotted go toward them (not implemented)
 
 - Battle system (icons done)
 
     - Different types of damage (melee done)
 
-        - Status effects
-            - healing (HP/MP)
+        - Status effects (Done)
+            - healing (HP/MP) (not implemented)
             - poison
             - burn
 
-        - Magic using Magic Points (MP)
+        - Magic using Magic Points (MP) (not implemented)
 
     - (HP)Health and (MP)Magic Bar (player and enemy) (Complete)
 
@@ -48,7 +45,7 @@ Not started 2/7
 
 
 # 
-## Nice to Have
+## Nice to Have (not implemented)
 # 
 - Player customization
 
