@@ -2,7 +2,7 @@
 cs-30 major project spring 2023
 
 ## Controls
-    arrow keys for movement
+    arrow keys/wasd for movement
     ( - key ) for less health
     ( + key ) for more health
     ( < key ) for less magic
