@@ -1,6 +1,15 @@
 # The-Monster-Dungeon
 cs-30 major project spring 2023
 
+## Controls
+    arrow keys for movement
+    ( - key ) for less health
+    ( + key ) for more health
+    ( < key ) for less magic
+    ( > key) for more magic
+    left mouse button when near enemy for attack
+    black doors to the next room
+    gray doors to the pervious room
 
 ## project remander 
     0 = evilGuard small
